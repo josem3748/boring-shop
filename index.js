@@ -8,13 +8,13 @@ class Usuario {
     this.mascotas = mascotas;
   }
   getFullName() {
-    console.log(`El nombre de usuario es ${this.nombre} ${this.apellido}`);
+    return `El nombre de usuario es ${this.nombre} ${this.apellido}`;
   }
   addMascota(mascota) {
     this.mascotas.push(mascota);
   }
   countMascotas() {
-    console.log(this.mascotas.length);
+    return this.mascotas.length;
   }
   addBook(nombre, autor) {
     this.libros.push({
@@ -26,7 +26,7 @@ class Usuario {
     const soloLibros = this.libros.map((item) => {
       return item.nombre;
     });
-    console.log(soloLibros);
+    return soloLibros;
   }
 }
 
@@ -37,8 +37,8 @@ const usuario = new Usuario(
   ["perro", "gato"]
 );
 
-usuario.getFullName();
+console.log(usuario.getFullName());
 usuario.addMascota("Pez");
-usuario.countMascotas();
+console.log(usuario.countMascotas());
 usuario.addBook("Lingo", "Pietro");
-usuario.getBookNames();
+console.log(usuario.getBookNames());
