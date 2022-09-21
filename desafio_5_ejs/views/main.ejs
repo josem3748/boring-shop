@@ -1,0 +1,62 @@
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css"
+      integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+      crossorigin="anonymous"
+    />
+    <title>Document</title>
+  </head>
+  <body style="background-color: lightgray">
+    <div class="container">
+      <!-- Content here -->
+      <br />
+      <h1>Add Product</h1>
+      <br />
+      <form action="/productos" method="post">
+        <div class="form-group">
+          <label for="exampleInputEmail1">Name</label>
+          <input
+            type="text"
+            class="form-control"
+            name="title"
+            id="title"
+            aria-describedby="emailHelp"
+            placeholder="Enter name"
+          />
+        </div>
+        <div class="form-group">
+          <label for="exampleInputEmail1">Price</label>
+          <input
+            type="number"
+            class="form-control"
+            name="price"
+            id="price"
+            aria-describedby="emailHelp"
+            placeholder="Enter price"
+          />
+        </div>
+        <div class="form-group">
+          <label for="exampleInputEmail1">Picture</label>
+          <input
+            type="text"
+            class="form-control"
+            name="thumbnail"
+            id="thumbnail"
+            aria-describedby="emailHelp"
+            placeholder="Enter picture"
+          />
+        </div>
+        <br />
+        <button type="submit" class="btn btn-primary">Send</button>
+        <br />
+        <br />
+        <a href="/productos" class="btn btn-secondary">View Products</a>
+      </form>
+    </div>
+  </body>
+</html>
