@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html lang="en">
+  <%- include('./partials/head') %>
+  <body>
+    <h1 style="color: blue">Variable</h1>
+    <p><%= tagline %></p>
+    <ul>
+      <% productos.forEach( producto => { %>
+      <li><%= producto.title %></li>
+      <% }); %>
+    </ul>
+  </body>
+</html>
