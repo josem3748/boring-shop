@@ -1,0 +1,17 @@
+[
+ {
+  "author": "juan@gmail.com",
+  "fecha": "22/12/1992 12:32:33",
+  "text": "Hola"
+ },
+ {
+  "author": "pedro@gmail.com",
+  "fecha": "22/12/1992 12:35:33",
+  "text": "Cómo va?"
+ },
+ {
+  "author": "diego@gmail.com",
+  "fecha": "22/12/1992 12:38:33",
+  "text": "Alojaaa"
+ }
+]
