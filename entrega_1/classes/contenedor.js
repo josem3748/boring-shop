@@ -1,6 +1,7 @@
 // Clase Contenedor
 
-const fs = require("fs");
+//const fs = require("fs");
+import fs from "fs";
 
 class Contenedor {
   constructor(nombre) {
@@ -132,4 +133,5 @@ class Contenedor {
   }
 }
 
-module.exports = { Contenedor };
+//module.exports = { Contenedor };
+export { Contenedor };

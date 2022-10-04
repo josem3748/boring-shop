@@ -1,4 +1,5 @@
-const express = require("express");
+//const express = require("express");
+import express from "express";
 const app = express();
 
 app.use(express.json());
@@ -8,14 +9,18 @@ app.use(express.urlencoded({ extended: true }));
 
 const { Router } = express;
 
-const contenedor = require("./classes/contenedor.js");
-const carro = require("./classes/contenedorCarrito.js");
+//const contenedor = require("./classes/contenedor.js");
+//const carro = require("./classes/contenedorCarrito.js");
+
+import { Contenedor } from "./classes/contenedor.js";
+import { Carrito } from "./classes/contenedorCarrito.js";
 
 const administrador = true;
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
-const productos = new contenedor.Contenedor("./data/products.txt");
+//const productos = new contenedor.Contenedor("./data/products.txt");
+const productos = new Contenedor("./data/products.txt");
 const apiProductos = Router();
 app.use("/api/productos", apiProductos);
 
@@ -79,7 +84,8 @@ apiProductos.delete("/:id", async (req, res) => {
 
 ///////////////////////////////////// Router /api/productos /////////////////////////////////////
 
-const carrito = new carro.Carrito("./data/carts.txt");
+//const carrito = new carro.Carrito("./data/carts.txt");
+const carrito = new Carrito("./data/carts.txt");
 const apiCarrito = Router();
 app.use("/api/carrito", apiCarrito);
 

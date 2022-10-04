@@ -1,6 +1,7 @@
 // Clase Carrito
 
-const fs = require("fs");
+//const fs = require("fs");
+import fs from "fs";
 
 class Carrito {
   constructor(nombre) {
@@ -162,4 +163,5 @@ class Carrito {
   }
 }
 
-module.exports = { Carrito };
+//module.exports = { Carrito };
+export { Carrito };
