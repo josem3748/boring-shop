@@ -19,3 +19,9 @@ CREATE DATABASE ecommerce;
 USE ecommerce;
 SHOW TABLES;
 SELECT * FROM articulos;
+
+CREATE DATABASE desafio_7;
+USE desafio_7;
+SHOW TABLES;
+SELECT * FROM productos;
+DELETE FROM productos WHERE productos.id = 4;
