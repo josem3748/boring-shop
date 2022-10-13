@@ -1,0 +1,180 @@
+mongod --dbpath "C:\Users\JM\Downloads\CODERHOUSE\Backend - José Moreno\boring-shop\desafio_8"
+
+mongosh
+
+show dbs
+
+use ecommerce
+
+db.createCollection("mensajes")
+
+db.createCollection("productos")
+
+db.mensajes.insertMany([
+  {
+    author: "juan@gmail.com",
+    fecha: "22/12/1992 12:32:33",
+    text: "Hola",
+  },
+  {
+    author: "pedro@gmail.com",
+    fecha: "22/12/1992 12:35:33",
+    text: "Cómo va?",
+  },
+  {
+    author: "diego@gmail.com",
+    fecha: "22/12/1992 12:38:33",
+    text: "Alojaaa",
+  },
+  {
+    author: "juan@gmail.com",
+    fecha: "22/12/1992 12:42:33",
+    text: "Hola",
+  },
+  {
+    author: "pedro@gmail.com",
+    fecha: "22/12/1992 12:45:33",
+    text: "Cómo va?",
+  },
+  {
+    author: "diego@gmail.com",
+    fecha: "22/12/1992 12:48:33",
+    text: "Alojaaa",
+  },
+  {
+    author: "juan@gmail.com",
+    fecha: "22/12/1992 12:52:33",
+    text: "Hola",
+  },
+  {
+    author: "pedro@gmail.com",
+    fecha: "22/12/1992 12:55:33",
+    text: "Cómo va?",
+  },
+  {
+    author: "diego@gmail.com",
+    fecha: "22/12/1992 12:58:33",
+    text: "Alojaaa",
+  },
+  {
+    author: "diego@gmail.com",
+    fecha: "22/12/1992 12:59:33",
+    text: "Fin",
+  }
+])
+
+db.productos.insertMany([
+  {
+    title: "Escuadra",
+    price: 120,
+    thumbnail:
+      "https://cdn3.iconfinder.com/data/icons/education-209/64/ruler-triangle-stationary-school-64.png",
+  },
+  {
+    title: "Calculadora",
+    price: 580,
+    thumbnail:
+      "https://cdn3.iconfinder.com/data/icons/education-209/64/calculator-math-tool-school-64.png",
+  },
+  {
+    title: "Globo Terráqueo",
+    price: 900,
+    thumbnail:
+      "https://cdn3.iconfinder.com/data/icons/education-209/64/globe-earth-geograhy-planet-school-64.png",
+  },
+  {
+    title: "Escuadra",
+    price: 1280,
+    thumbnail:
+      "https://cdn3.iconfinder.com/data/icons/education-209/64/ruler-triangle-stationary-school-64.png",
+  },
+  {
+    title: "Calculadora",
+    price: 1700,
+    thumbnail:
+      "https://cdn3.iconfinder.com/data/icons/education-209/64/calculator-math-tool-school-64.png",
+  },
+  {
+    title: "Globo Terráqueo",
+    price: 2300,
+    thumbnail:
+      "https://cdn3.iconfinder.com/data/icons/education-209/64/globe-earth-geograhy-planet-school-64.png",
+  },
+  {
+    title: "Escuadra",
+    price: 2860,
+    thumbnail:
+      "https://cdn3.iconfinder.com/data/icons/education-209/64/ruler-triangle-stationary-school-64.png",
+  },
+  {
+    title: "Calculadora",
+    price: 3350,
+    thumbnail:
+      "https://cdn3.iconfinder.com/data/icons/education-209/64/calculator-math-tool-school-64.png",
+  },
+  {
+    title: "Globo Terráqueo",
+    price: 4320,
+    thumbnail:
+      "https://cdn3.iconfinder.com/data/icons/education-209/64/globe-earth-geograhy-planet-school-64.png",
+  },
+  {
+    title: "Globo Terráqueo",
+    price: 4990,
+    thumbnail:
+      "https://cdn3.iconfinder.com/data/icons/education-209/64/globe-earth-geograhy-planet-school-64.png",
+  }
+])
+
+db.mensajes.find().pretty()
+
+db.productos.find().pretty()
+
+db.mensajes.estimatedDocumentCount()
+
+db.productos.estimatedDocumentCount()
+
+db.productos.insertOne({
+    title: "Globo Terráqueo",
+    price: 4090,
+    thumbnail:
+      "https://cdn3.iconfinder.com/data/icons/education-209/64/globe-earth-geograhy-planet-school-64.png",
+  })
+
+db.productos.find({price: {$lt: 1000}})
+
+db.productos.find({$and: [{price: {$gte: 1000}}, {price: {$lte: 3000}}]})
+
+db.productos.find({price: {$gt: 3000}})
+
+db.productos.find({}, {"title":1}).sort({price: 1}).skip(2).limit(1)
+
+db.productos.updateMany({}, {$set: {stock: 100}})
+
+db.productos.updateMany({price: {$gt: 4000}}, {$set: {stock: 0}})
+
+db.productos.deleteMany({price: {$lt: 1000}})
+
+show dbs
+
+use admin
+
+db.createUser(
+    {
+        user: "pepe",
+        pwd: "asd456",
+        roles: [
+            { role: "read", db: "ecommerce" }
+        ]
+    }
+)
+
+mongod --dbpath "C:\Users\JM\Downloads\CODERHOUSE\Backend - José Moreno\boring-shop\desafio_8" --auth
+
+mongosh -u pepe -p asd456
+
+show dbs
+
+use ecommerce
+
+db.productos.deleteMany({})
