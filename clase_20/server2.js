@@ -2,7 +2,7 @@ import admin from "firebase-admin";
 
 import { createRequire } from "module";
 const require = createRequire(import.meta.url);
-const ServiceAccount = require("./db/jm-boring-shop-firebase-adminsdk-imxdg-577d0b025e.json");
+const ServiceAccount = require("./db/jm-boring-shop-firebase-adminsdk-i6ixe-556e464894.json");
 
 admin.initializeApp({
   credential: admin.credential.cert(ServiceAccount),
