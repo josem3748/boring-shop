@@ -95,9 +95,17 @@ const getMessages2 = async () => {
 
     let compression = Math.round(((size1 - size2) / size1) * 10000) / 100;
 
+    /////////////// DENORMALIZAR /////////////////
+
+    const denormalizedResult = denormalize(
+      result.result,
+      mensajeListSchema,
+      result.entities
+    );
+
     /////////////// RETURN /////////////////
 
-    return { mensajes: result, compresion: compression };
+    return { mensajes: denormalizedResult, compresion: compression };
   } catch (error) {
     console.log(error);
   }
@@ -141,7 +149,7 @@ app.get("/", async (req, res) => {
   const productos = await getProducts2();
   const check = productos.length > 0;
   const mensajesCheck = await getMessages2();
-  const check2 = mensajesCheck.mensajes.result.length > 0;
+  const check2 = mensajesCheck.mensajes.length > 0;
   res.status(200).render("main", {
     body: check,
     body2: check2,

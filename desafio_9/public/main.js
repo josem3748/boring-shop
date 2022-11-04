@@ -65,17 +65,11 @@ const addMessage = (e) => {
 };
 
 socket.on("mensajes", (data) => {
+  console.log(data);
   const html1 = `<div>Nivel de compresión: <strong>${data.compresion}%</strong></div>`;
-
-  const html2 = data.mensajes.result
+  const html2 = data.mensajes
     .map((elem, index) => {
-      return `<div><strong style="color: blue;">${
-        elem.author
-      }</strong> <span style="color: brown;">${
-        elem.fecha
-      }</span>: <em style="color: green;">${elem.text}</em><img src="${
-        data.mensajes.entities.autores[elem.author].avatar
-      }" /></div>`;
+      return `<div><strong style="color: blue;">${elem.author.id}</strong> <span style="color: brown;">${elem.fecha}</span>: <em style="color: green;">${elem.text}</em><img src="${elem.author.avatar}" /></div>`;
     })
     .join(" ");
 
