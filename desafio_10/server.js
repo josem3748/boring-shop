@@ -219,26 +219,6 @@ app.post("/login", async (req, res) => {
   });
 });
 
-/*   if ((!req.session["_id"] && !req.query.user) || (req.query.user)) {
-    console.log("if");
-    const { user } = req.query;
-    req.session.user = user;
-    req.session.inicio = "iniciado";
-    res.status(200).render("main", {
-      body: check,
-      body2: check2,
-      user: req.session.user,
-    });
-  } else if ((!req.session["_id"] && req.query.user) || req.session["_id"]) {
-    console.log("else if");
-    req.session.inicio = "iniciado";
-    res.status(200).render("main", {
-      body: check,
-      body2: check2,
-      user: req.session.user,
-    });
-  } */
-
 app.get("/logout", (req, res) => {
   let user = req.session.user;
   req.session.destroy((err) => {
