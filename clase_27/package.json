@@ -1,0 +1,19 @@
+{
+  "type": "module",
+  "name": "clase_27",
+  "version": "1.0.0",
+  "description": "",
+  "main": "processargv.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "dotenv": "^16.0.3",
+    "express": "^4.18.2",
+    "minimist": "^1.2.7",
+    "yargs": "^17.6.2"
+  }
+}
