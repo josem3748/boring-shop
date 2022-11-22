@@ -3,7 +3,10 @@ no funciona y al revisar los logs de pm2 tira el siguiente error:
 
 Error [ERR_UNSUPPORTED_ESM_URL_SCHEME]: Only file and data URLs are supported by the default ESM loader. On Windows, absolute paths must be valid file:// URLs. Received protocol 'c:'
 
-Tuve que pasar a commonjs para que funcione. */
+Tuve que pasar a commonjs para que funcione.
+
+Solución: https://github.com/Unitech/pm2/issues/4819#issuecomment-1046896069
+*/
 
 //import express from "express";
 const express = require("express");
