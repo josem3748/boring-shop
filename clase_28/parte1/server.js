@@ -18,7 +18,7 @@ const programa = (array) => {
   let counter = 0;
   let max;
   let min;
-  let check;
+  let check = true;
 
   for (let j = 0; j < array.length; j++) {
     const elem = array[j];
@@ -56,5 +56,5 @@ const programa = (array) => {
 //programa(process.argv);
 const test = [1, 2, 3, 4, 5, true, "hola", { key: "value" }];
 //const test = [1, 2, 3, 4, 5];
-//programa(test);
-programa();
+programa(test);
+//programa();
