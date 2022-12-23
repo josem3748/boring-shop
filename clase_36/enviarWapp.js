@@ -12,8 +12,8 @@ console.log(telefono, mensaje);
 
 import twilio from "twilio";
 
-const accountSid = "ACff013edfdea289e91cff5323099228e9";
-const authToken = "4908d7419588540daad86a7aff5908f6";
+const accountSid = "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx";
+const authToken = "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx";
 
 const client = twilio(accountSid, authToken);
 
