@@ -1,0 +1,14 @@
+{
+  "type": "module",
+  "name": "clase_37",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.18.2",
+    "jmcoder": "^1.0.1"
+  },
+  "scripts": {
+    "start": "nodemon server"
+  }
+}
