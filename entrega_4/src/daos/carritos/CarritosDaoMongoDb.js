@@ -1,18 +1,6 @@
-import { ContenedorMongoDb } from "../../contenedores/ContenedorMongoDb.js";
+import { ContenedorMongoDb } from "../../containers/ContenedorMongoDb.js";
 import { connectionMongoDb as connection } from "../../db/config.js";
-
-import mongoose from "mongoose";
-
-const carritosCollection = "carritos";
-
-const CarritoSchema = new mongoose.Schema({
-  id: { type: Number },
-  timestamp: { type: Number },
-  productos: { type: Array },
-  userid: { type: String },
-});
-
-const carritosModel = mongoose.model(carritosCollection, CarritoSchema);
+import carritosModel from "../../models/carritosModel.js";
 
 class CarritosDaoMongoDb extends ContenedorMongoDb {
   constructor() {

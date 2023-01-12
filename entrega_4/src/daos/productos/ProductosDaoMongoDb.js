@@ -1,22 +1,6 @@
-import { ContenedorMongoDb } from "../../contenedores/ContenedorMongoDb.js";
+import { ContenedorMongoDb } from "../../containers/ContenedorMongoDb.js";
 import { connectionMongoDb as connection } from "../../db/config.js";
-
-import mongoose from "mongoose";
-
-const productosCollection = "productos";
-
-const ProductoSchema = new mongoose.Schema({
-  nombre: { type: String },
-  descripcion: { type: String },
-  codigo: { type: Number },
-  precio: { type: Number },
-  stock: { type: Number },
-  timestamp: { type: Number },
-  foto: { type: String },
-  id: { type: Number },
-});
-
-const productosModel = mongoose.model(productosCollection, ProductoSchema);
+import productosModel from "../../models/productosModel.js";
 
 class ProductosDaoMongoDb extends ContenedorMongoDb {
   constructor() {

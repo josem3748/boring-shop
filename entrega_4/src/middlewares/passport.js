@@ -1,7 +1,5 @@
-import {
-  ServiciosUsuarios,
-  usuariosModel,
-} from "../services/ServiceUsuarios.js";
+import { ServiciosUsuarios } from "../services/ServiceUsuarios.js";
+import usuariosModel from "../models/usuariosModel.js";
 import { mailOptions } from "../middlewares/nodemailer.js";
 import express from "express";
 import { connectionMongoDb as connection } from "../db/config.js";
