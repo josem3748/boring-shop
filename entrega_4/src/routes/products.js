@@ -1,12 +1,12 @@
 import express from "express";
-const { Router } = express;
-
-const products = Router();
-
 import cookieParser from "cookie-parser";
 import session from "express-session";
-products.use(cookieParser());
+import productsGet from "../controllers/ControllerProducts.js";
 
+const { Router } = express;
+const products = Router();
+
+products.use(cookieParser());
 products.use(
   session({
     secret: "keyboard cat",
@@ -20,8 +20,6 @@ products.use(
     saveUninitialized: false,
   })
 );
-
-import productsGet from "../controllers/ControllerProducts.js";
 
 products.get("/products", productsGet);
 

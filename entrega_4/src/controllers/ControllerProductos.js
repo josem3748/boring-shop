@@ -1,5 +1,5 @@
-import * as dao from "../daos/index.js";
-const productos = new dao.productosDao();
+import ServiciosProductos from "../services/ServiceProductos.js";
+const productos = new ServiciosProductos();
 
 const administrador = process.env.admin;
 

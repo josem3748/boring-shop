@@ -1,4 +1,4 @@
-import { loggerConsole } from "../middlewares/loggers.js";
+import { loggerConsole } from "../utils/loggers.js";
 
 const loginGet = async (req, res) => {
   req.session.inicio = Date.now();
@@ -23,7 +23,9 @@ const loginPost = async (req, res) => {
 };
 
 const loginFailGet = async (req, res) => {
-  res.status(200).render("faillogin");
+  res.status(200).render("faillogin", {
+    user: "",
+  });
 };
 
 const logoutGet = async (req, res) => {

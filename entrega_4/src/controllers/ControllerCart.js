@@ -1,40 +1,14 @@
-import * as dao from "../daos/index.js";
-const carrito = new dao.carritosDao();
-
-import { loggerConsole, loggerFile } from "../middlewares/loggers.js";
-
-import { transporter, mailOptions } from "../middlewares/nodemailer.js";
+import ServiciosCarritos from "../services/ServiceCarritos.js";
+import { mailOptions } from "../middlewares/nodemailer.js";
 import {
   ADMIN_PHONE,
   twilioWaNumber,
   messageOptions,
-  client,
 } from "../middlewares/twilio.js";
 
+const carrito = new ServiciosCarritos();
 const cartGet = async (req, res) => {
   const user = req.session.user;
-
-  const html = (data) => {
-    return data
-      .map((elem, index) => {
-        return `<tr>
-                    <td style="color: white;">${elem.nombre}</td>
-                    <td><img src="${elem.foto}" /></td>
-                    <td style="color: white;">${elem.stock}</td>
-                    <td style="color: white;">${elem.precio}</td>
-                  </tr>`;
-      })
-      .join(" ");
-  };
-
-  const total = (data) => {
-    let total = 0;
-    data.forEach((elem) => {
-      total += elem.precio * elem.stock;
-    });
-
-    return total;
-  };
 
   let carritoActual = "";
   let totalActual = 0;
@@ -42,8 +16,8 @@ const cartGet = async (req, res) => {
   if (user) {
     const userid = user._id;
     const cart = await carrito.getByUserId(userid);
-    carritoActual = html(cart);
-    totalActual = total(cart);
+    carritoActual = await carrito.tablaCarrito(cart);
+    totalActual = await carrito.totalCarrito(cart);
   }
 
   res.status(200).render("cart", {
@@ -55,28 +29,6 @@ const cartGet = async (req, res) => {
 
 const cartPost = async (req, res) => {
   const user = req.session.user;
-
-  const html = (data) => {
-    return data
-      .map((elem, index) => {
-        return `<tr>
-                    <td style="color: white;">${elem.nombre}</td>
-                    <td><img src="${elem.foto}" /></td>
-                    <td style="color: white;">${elem.stock}</td>
-                    <td style="color: white;">${elem.precio}</td>
-                  </tr>`;
-      })
-      .join(" ");
-  };
-
-  const total = (data) => {
-    let total = 0;
-    data.forEach((elem) => {
-      total += elem.precio * elem.stock;
-    });
-
-    return total;
-  };
 
   let carritoActual = "";
   let totalActual = 0;
@@ -95,8 +47,8 @@ const cartPost = async (req, res) => {
   if (user) {
     const userid = user._id;
     const cart = await carrito.getByUserId(userid);
-    carritoActual += html(cart);
-    totalActual = total(cart);
+    carritoActual += await carrito.tablaCarrito(cart);
+    totalActual = await carrito.totalCarrito(cart);
   }
 
   carritoActual += `</tbody>
@@ -108,34 +60,14 @@ const cartPost = async (req, res) => {
   mailOptions.subject = `nuevo pedido de ${user.name} (${user.address})`;
   mailOptions.html = carritoActual;
 
-  (async () => {
-    try {
-      const info = await transporter.sendMail(mailOptions);
-      loggerConsole.info(info);
-    } catch (error) {
-      loggerConsole.error(error);
-      loggerFile.error(error);
-    }
-  })();
-
-  ////////////////////////////////
+  carrito.sendMail(mailOptions);
 
   ///////// Twilio SMS //////////
 
   messageOptions.body = `Hemos recibido tu pedido ${user.name}`;
   messageOptions.to = user.phone;
 
-  (async () => {
-    try {
-      const message = await client.messages.create(messageOptions);
-      loggerConsole.info(message);
-    } catch (error) {
-      loggerConsole.error(error);
-      loggerFile.error(error);
-    }
-  })();
-
-  ///////////////////////////////
+  carrito.sendSms(messageOptions);
 
   ///////// Twilio Wap //////////
 
@@ -145,15 +77,7 @@ const cartPost = async (req, res) => {
   wapOptions.from = `whatsapp:${twilioWaNumber}`;
   wapOptions.to = `whatsapp:${ADMIN_PHONE}`;
 
-  (async () => {
-    try {
-      const message = await client.messages.create(wapOptions);
-      loggerConsole.info(message);
-    } catch (error) {
-      loggerConsole.error(error);
-      loggerFile.error(error);
-    }
-  })();
+  carrito.sendWap(wapOptions);
 
   ///////////////////////////////
 

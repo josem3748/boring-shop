@@ -1,8 +1,4 @@
 import express from "express";
-const { Router } = express;
-
-const apiProductos = Router();
-
 import {
   productosGetAll,
   productosGetId,
@@ -10,6 +6,9 @@ import {
   productosPut,
   productosDelete,
 } from "../controllers/ControllerProductos.js";
+
+const { Router } = express;
+const apiProductos = Router();
 
 apiProductos.get("/", productosGetAll);
 apiProductos.get("/:id", productosGetId);

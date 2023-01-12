@@ -1,4 +1,4 @@
-import { loggerConsole, loggerFile } from "../middlewares/loggers.js";
+import { loggerConsole, loggerFile } from "../utils/loggers.js";
 
 const noImplementada = async (req, res) => {
   loggerConsole.warn(

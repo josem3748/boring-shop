@@ -1,5 +1,5 @@
 import winston from "winston";
-/// LOGGER
+
 const loggerConsole = winston.createLogger({
   transports: [new winston.transports.Console({ level: "info" })],
 });

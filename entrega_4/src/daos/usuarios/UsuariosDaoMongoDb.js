@@ -1,5 +1,5 @@
 import { ContenedorMongoDb } from "../../contenedores/ContenedorMongoDb.js";
-import { connectionMongoDb as connection } from "../../config.js";
+import { connectionMongoDb as connection } from "../../db/config.js";
 
 import mongoose from "mongoose";
 
@@ -23,4 +23,4 @@ class UsuariosDaoMongoDb extends ContenedorMongoDb {
   }
 }
 
-export default UsuariosDaoMongoDb;
+export { UsuariosDaoMongoDb, usuariosModel };

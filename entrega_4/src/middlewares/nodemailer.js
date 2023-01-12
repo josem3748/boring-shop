@@ -1,6 +1,6 @@
 import { createTransport } from "nodemailer";
 
-const ADMIN_MAIL = "alda.littel17@ethereal.email";
+const ADMIN_MAIL = process.env.adminMail;
 
 const transporter = createTransport({
   host: "smtp.ethereal.email",

@@ -1,14 +1,18 @@
 import express from "express";
-const { Router } = express;
-
-const login = Router();
-
 import { passport } from "../middlewares/passport.js";
-
 import cookieParser from "cookie-parser";
 import session from "express-session";
-login.use(cookieParser());
+import {
+  loginGet,
+  loginPost,
+  loginFailGet,
+  logoutGet,
+} from "../controllers/ControllerLogin.js";
 
+const { Router } = express;
+const login = Router();
+
+login.use(cookieParser());
 login.use(
   session({
     secret: "keyboard cat",
@@ -22,13 +26,6 @@ login.use(
     saveUninitialized: false,
   })
 );
-
-import {
-  loginGet,
-  loginPost,
-  loginFailGet,
-  logoutGet,
-} from "../controllers/ControllerLogin.js";
 
 login.get("/login", loginGet);
 login.post(

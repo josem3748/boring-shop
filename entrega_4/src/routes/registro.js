@@ -1,15 +1,18 @@
 import express from "express";
-const { Router } = express;
-
-const registro = Router();
-
 import upload from "../middlewares/multer.js";
 import { passport } from "../middlewares/passport.js";
-
 import cookieParser from "cookie-parser";
 import session from "express-session";
-registro.use(cookieParser());
+import {
+  registroGet,
+  registroPost,
+  registroFailGet,
+} from "../controllers/ControllerRegistro.js";
 
+const { Router } = express;
+const registro = Router();
+
+registro.use(cookieParser());
 registro.use(
   session({
     secret: "keyboard cat",
@@ -23,12 +26,6 @@ registro.use(
     saveUninitialized: false,
   })
 );
-
-import {
-  registroGet,
-  registroPost,
-  registroFailGet,
-} from "../controllers/ControllerRegistro.js";
 
 registro.get("/registro", registroGet);
 registro.post(

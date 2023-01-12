@@ -1,5 +1,5 @@
-import * as dao from "../daos/index.js";
-const carrito = new dao.carritosDao();
+import ServiciosCarritos from "../services/ServiceCarritos.js";
+const carrito = new ServiciosCarritos();
 
 const carritosGetAll = async (req, res) => {
   const resultado = await carrito.getAll();

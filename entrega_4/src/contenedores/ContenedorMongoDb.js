@@ -1,149 +1,17 @@
-import { loggerConsole, loggerFile } from "../middlewares/loggers.js";
-
-// Clase Contenedor
+import { loggerConsole, loggerFile } from "../utils/loggers.js";
 
 class ContenedorMongoDb {
   constructor(connection, model) {
     this.connection = connection;
     this.model = model;
   }
-  async saveProduct(Object) {
+  async getAll() {
     try {
       await this.connection();
 
-      let productos = await this.model.find({});
+      let registros = await this.model.find({});
 
-      const ids = productos.map((object) => {
-        return object.id;
-      });
-
-      let nuevoId = 1;
-
-      if (ids.length > 0) nuevoId = Math.max(...ids) + 1;
-
-      Object.id = nuevoId;
-      Object.timestamp = Date.now();
-
-      const productoSaveModel = new this.model(Object);
-      await productoSaveModel.save();
-
-      loggerConsole.info(`Registro agregado con id ${nuevoId}`);
-
-      return Object;
-    } catch (error) {
-      loggerConsole.error(error);
-      loggerFile.error(error);
-    }
-  }
-  async saveCart(Array, userid) {
-    try {
-      await this.connection();
-
-      let carritos = await this.model.find({});
-
-      const ids = carritos.map((object) => {
-        return object.id;
-      });
-
-      let nuevoId = 1;
-
-      if (ids.length > 0) nuevoId = Math.max(...ids) + 1;
-
-      const nuevoCarrito = {
-        id: nuevoId,
-        timestamp: Date.now(),
-        productos: Array,
-        userid: userid,
-      };
-
-      const carritoSaveModel = new this.model(nuevoCarrito);
-      await carritoSaveModel.save();
-
-      loggerConsole.info(`Registro agregado con id ${nuevoId}`);
-
-      return nuevoId;
-    } catch (error) {
-      loggerConsole.error(error);
-      loggerFile.error(error);
-    }
-  }
-  async editById(id, Object) {
-    try {
-      await this.connection();
-
-      let productos = await this.model.find({});
-
-      let producto = productos.find((producto) => producto.id === parseInt(id));
-
-      if (!producto) {
-        return { error: "registro no encontrado" };
-      } else {
-        const { nombre, descripcion, codigo, precio, stock, timestamp, foto } =
-          Object;
-
-        nombre &&
-          (await this.model.updateOne(
-            { id: id },
-            { $set: { nombre: nombre } }
-          ));
-        descripcion &&
-          (await this.model.updateOne(
-            { id: id },
-            { $set: { descripcion: descripcion } }
-          ));
-        codigo &&
-          (await this.model.updateOne(
-            { id: id },
-            { $set: { codigo: codigo } }
-          ));
-        precio &&
-          (await this.model.updateOne(
-            { id: id },
-            { $set: { precio: precio } }
-          ));
-        stock &&
-          (await this.model.updateOne({ id: id }, { $set: { stock: stock } }));
-        timestamp &&
-          (await this.model.updateOne(
-            { id: id },
-            { $set: { timestamp: timestamp } }
-          ));
-        foto &&
-          (await this.model.updateOne({ id: id }, { $set: { foto: foto } }));
-
-        loggerConsole.info(`Registro editado con id ${id}`);
-
-        const resultado = await this.model.find({ id: id });
-
-        return resultado;
-      }
-    } catch (error) {
-      loggerConsole.error(error);
-      loggerFile.error(error);
-    }
-  }
-  async saveById(id, Object) {
-    try {
-      await this.connection();
-
-      let carritos = await this.model.find({});
-
-      let carrito = carritos.find((carrito) => carrito.id === parseInt(id));
-
-      if (!carrito) {
-        return { error: "registro no encontrado" };
-      }
-
-      carrito.productos.push(Object);
-
-      await this.model.updateOne(
-        { id: id },
-        { $set: { productos: carrito.productos } }
-      );
-
-      loggerConsole.info(`Registro con id ${id} editado.`);
-
-      return carrito;
+      return registros;
     } catch (error) {
       loggerConsole.error(error);
       loggerFile.error(error);
@@ -153,45 +21,58 @@ class ContenedorMongoDb {
     try {
       await this.connection();
 
-      let resultados = await this.model.find({});
+      let registros = await this.model.find({});
 
-      let resultado = resultados.find((elem) => elem.id == Number);
+      let registro = registros.find((elem) => elem.id == Number);
 
-      if (!resultado) return (resultado = { error: "registro no encontrado" });
+      if (!registro) return (registro = { error: "registro no encontrado" });
 
-      resultado.productos && (resultado = resultado.productos);
-
-      return resultado;
+      return registro;
     } catch (error) {
       loggerConsole.error(error);
       loggerFile.error(error);
     }
   }
-  async getByUserId(ID) {
+  async save(Object) {
     try {
       await this.connection();
 
-      let resultados = await this.model.find({});
+      const nuevoRegistro = new this.model(Object);
+      const registroGuardado = await nuevoRegistro.save();
 
-      let resultado = resultados.find((elem) => elem.userid == ID);
+      loggerConsole.info(`Registro agregado con id ${Object.id}`);
 
-      if (!resultado) return (resultado = { error: "registro no encontrado" });
-
-      resultado.productos && (resultado = resultado.productos);
-
-      return resultado;
+      return registroGuardado;
     } catch (error) {
       loggerConsole.error(error);
       loggerFile.error(error);
     }
   }
-  async getAll() {
+  async editById(id, Object) {
     try {
       await this.connection();
 
-      let resultados = await this.model.find({});
+      let registros = await this.model.find({});
 
-      return resultados;
+      let registro = registros.find((registro) => registro.id === parseInt(id));
+
+      if (!registro) {
+        return { error: "registro no encontrado" };
+      } else {
+        let keys = Object.keys(Object);
+
+        keys.forEach(async (elem) => {
+          const objeto = {};
+          objeto[elem] = Object.elem;
+          await this.model.updateOne({ id: id }, { $set: objeto });
+        });
+
+        loggerConsole.info(`Registro editado con id ${id}`);
+
+        const registroEditado = await this.model.find({ id: id });
+
+        return registroEditado;
+      }
     } catch (error) {
       loggerConsole.error(error);
       loggerFile.error(error);
@@ -201,11 +82,11 @@ class ContenedorMongoDb {
     try {
       await this.connection();
 
-      let resultados = await this.model.find({});
+      let registros = await this.model.find({});
 
-      const resultado = resultados.find((elem) => elem.id == Number);
+      const registro = registros.find((elem) => elem.id == Number);
 
-      if (!resultado) {
+      if (!registro) {
         loggerConsole.info("El registro no existe.");
         return { error: "registro no encontrado" };
       }
@@ -214,46 +95,7 @@ class ContenedorMongoDb {
 
       loggerConsole.info(`Registro con ID ${Number} eliminado.`);
 
-      return resultado;
-    } catch (error) {
-      loggerConsole.error(error);
-      loggerFile.error(error);
-    }
-  }
-  async deleteByProduct(id, id_prod) {
-    try {
-      await this.connection();
-
-      let carritos = await this.model.find({});
-
-      let carrito = carritos.find((carrito) => carrito.id === parseInt(id));
-
-      if (!carrito) {
-        return { error: "registro no encontrado" };
-      }
-
-      let producto = carrito.productos.find(
-        (producto) => producto.id === parseInt(id_prod)
-      );
-
-      if (!producto) {
-        return { error: "registro no encontrado" };
-      }
-
-      let nuevosProductos = carrito.productos.filter(
-        (producto) => producto.id !== parseInt(id_prod)
-      );
-
-      carrito.productos = nuevosProductos;
-
-      await this.model.updateOne(
-        { id: id },
-        { $set: { productos: nuevosProductos } }
-      );
-
-      loggerConsole.info(`Registro con id ${id} editado.`);
-
-      return carrito;
+      return registro;
     } catch (error) {
       loggerConsole.error(error);
       loggerFile.error(error);

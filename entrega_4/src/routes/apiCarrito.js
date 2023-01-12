@@ -1,8 +1,4 @@
 import express from "express";
-const { Router } = express;
-
-const apiCarrito = Router();
-
 import {
   carritosGetAll,
   carritosPost,
@@ -11,6 +7,9 @@ import {
   carritosPostId,
   carritosDeleteId,
 } from "../controllers/ControllerCarritos.js";
+
+const { Router } = express;
+const apiCarrito = Router();
 
 apiCarrito.get("/", carritosGetAll);
 apiCarrito.post("/", carritosPost);
