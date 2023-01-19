@@ -1,18 +1,14 @@
 import { loggerConsole, loggerFile } from "../utils/loggers.js";
-import { transporter } from "../middlewares/nodemailer.js";
 import { usuariosModel } from "../daos/usuarios/UsuariosDaoMongoDb.js";
-
-import Dao from "../daos/factoryDao.js";
-
-const factory = new Dao();
+import repoUsuarios from "../repos/repoUsuarios.js";
 
 class ServiciosUsuarios {
   constructor() {
-    this.Dao = factory.instanceDao("usuarios");
+    this.repoUsuarios = new repoUsuarios();
   }
   async sendMail(mailOptions) {
     try {
-      const info = await transporter.sendMail(mailOptions);
+      const info = await this.repoUsuarios.sendMail(mailOptions);
       loggerConsole.info(info);
     } catch (error) {
       loggerConsole.error(error);

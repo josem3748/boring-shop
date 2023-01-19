@@ -1,5 +1,5 @@
 import { loggerConsole, loggerFile } from "../utils/loggers.js";
-import connectionMongoDb from "../db/config.js";
+import connectionMongoDb from "../db/configMongoDb.js";
 
 connectionMongoDb.connection();
 

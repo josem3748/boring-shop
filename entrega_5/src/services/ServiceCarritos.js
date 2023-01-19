@@ -1,17 +1,15 @@
 import { loggerConsole, loggerFile } from "../utils/loggers.js";
 import { transporter } from "../middlewares/nodemailer.js";
 import { client } from "../middlewares/twilio.js";
-import Dao from "../daos/factoryDao.js";
-
-const factory = new Dao();
+import repoCarritos from "../repos/repoCarritos.js";
 
 class ServiciosCarritos {
   constructor() {
-    this.Dao = factory.instanceDao("carritos");
+    this.repoCarritos = new repoCarritos();
   }
   async getAll() {
     try {
-      return await this.Dao.getAll();
+      return await this.repoCarritos.getAll();
     } catch (error) {
       loggerConsole.error(error);
       loggerFile.error(error);
@@ -19,7 +17,7 @@ class ServiciosCarritos {
   }
   async saveCart(Array, userid) {
     try {
-      let carritos = await this.Dao.getAll();
+      let carritos = await this.repoCarritos.getAll();
 
       const ids = carritos.map((object) => {
         return object.id;
@@ -36,7 +34,7 @@ class ServiciosCarritos {
         userid: userid,
       };
 
-      await this.Dao.save(nuevoCarrito);
+      await this.repoCarritos.save(nuevoCarrito);
 
       return nuevoId;
     } catch (error) {
@@ -46,7 +44,7 @@ class ServiciosCarritos {
   }
   async deleteById(Number) {
     try {
-      return await this.Dao.deleteById(Number);
+      return await this.repoCarritos.deleteById(Number);
     } catch (error) {
       loggerConsole.error(error);
       loggerFile.error(error);
@@ -54,10 +52,8 @@ class ServiciosCarritos {
   }
   async getById(Number) {
     try {
-      let carrito = await this.Dao.getById(Number);
-
-      carrito.productos && (carrito = carrito.productos);
-
+      let carrito = await this.repoCarritos.getById(Number);
+      if (!carrito) return (carrito = { error: "registro no encontrado" });
       return carrito;
     } catch (error) {
       loggerConsole.error(error);
@@ -66,7 +62,7 @@ class ServiciosCarritos {
   }
   async saveById(id, Object) {
     try {
-      let carritos = await this.Dao.getAll();
+      let carritos = await this.repoCarritos.getAll();
 
       let carrito = carritos.find((carrito) => carrito.id === parseInt(id));
 
@@ -79,7 +75,7 @@ class ServiciosCarritos {
       const objeto = {};
       objeto.productos = carrito.productos;
 
-      return await this.Dao.editById(id, objeto);
+      return await this.repoCarritos.editById(id, objeto);
     } catch (error) {
       loggerConsole.error(error);
       loggerFile.error(error);
@@ -87,7 +83,7 @@ class ServiciosCarritos {
   }
   async deleteByProduct(id, id_prod) {
     try {
-      let carritos = await this.Dao.getAll();
+      let carritos = await this.repoCarritos.getAll();
 
       let carrito = carritos.find((carrito) => carrito.id === parseInt(id));
 
@@ -112,7 +108,7 @@ class ServiciosCarritos {
       const objeto = {};
       objeto.productos = nuevosProductos;
 
-      return await this.Dao.editById(id, objeto);
+      return await this.repoCarritos.editById(id, objeto);
     } catch (error) {
       loggerConsole.error(error);
       loggerFile.error(error);
@@ -120,14 +116,8 @@ class ServiciosCarritos {
   }
   async getByUserId(ID) {
     try {
-      let carritos = await this.Dao.getAll();
-
-      let carrito = carritos.find((elem) => elem.userid == ID);
-
+      let carrito = await this.repoCarritos.getByUserId(ID);
       if (!carrito) return (carrito = { error: "registro no encontrado" });
-
-      carrito.productos && (carrito = carrito.productos);
-
       return carrito;
     } catch (error) {
       loggerConsole.error(error);
@@ -140,7 +130,7 @@ class ServiciosCarritos {
         return `<tr>
                     <td style="color: white;">${elem.nombre}</td>
                     <td><img src="${elem.foto}" /></td>
-                    <td style="color: white;">${elem.stock}</td>
+                    <td style="color: white;">${elem.qty}</td>
                     <td style="color: white;">${elem.precio}</td>
                   </tr>`;
       })
@@ -149,7 +139,7 @@ class ServiciosCarritos {
   async totalCarrito(data) {
     let total = 0;
     data.forEach((elem) => {
-      total += elem.precio * elem.stock;
+      total += elem.precio * elem.qty;
     });
 
     return total;

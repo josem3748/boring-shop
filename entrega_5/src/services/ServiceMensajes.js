@@ -1,15 +1,13 @@
 import { loggerConsole, loggerFile } from "../utils/loggers.js";
-import Dao from "../daos/factoryDao.js";
-
-const factory = new Dao();
+import repoMensajes from "../repos/repoMensajes.js";
 
 class ServiciosMensajes {
   constructor() {
-    this.Dao = factory.instanceDao("mensajes");
+    this.repoMensajes = new repoMensajes();
   }
   async getMessages() {
     try {
-      return await this.Dao.getAll();
+      return await this.repoMensajes.getAll();
     } catch (error) {
       loggerConsole.error(error);
       loggerFile.error(error);
@@ -17,7 +15,7 @@ class ServiciosMensajes {
   }
   async sendMessage(data) {
     try {
-      return await this.Dao.save(data);
+      return await this.repoMensajes.save(data);
     } catch (error) {
       loggerConsole.error(error);
       loggerFile.error(error);

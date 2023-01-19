@@ -2,11 +2,15 @@ import initServer from "./server.js";
 import { loggerConsole } from "./utils/loggers.js";
 import cluster from "cluster";
 import os from "os";
+import yargs from "yargs";
+
+const args = yargs(process.argv.slice(2))
+  .alias({ p: "puerto", m: "modo", db: "database" })
+  .default({ p: 8080, m: "fork", db: "mongodb" }).argv;
 
 const numCPUs = os.cpus().length;
-const MODO = "fork";
 
-if (MODO == "cluster") {
+if (args.modo == "cluster") {
   if (cluster.isPrimary) {
     loggerConsole.info(`Master ${process.pid} is running`);
 

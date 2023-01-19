@@ -1,15 +1,13 @@
 import { loggerConsole, loggerFile } from "../utils/loggers.js";
-import Dao from "../daos/factoryDao.js";
-
-const factory = new Dao();
+import repoProductos from "../repos/repoProductos.js";
 
 class ServiciosProductos {
   constructor() {
-    this.Dao = factory.instanceDao("productos");
+    this.repoProductos = new repoProductos();
   }
   async saveProduct(Object) {
     try {
-      let productos = await this.Dao.getAll();
+      let productos = await this.repoProductos.getAll();
 
       const ids = productos.map((object) => {
         return object.id;
@@ -22,7 +20,7 @@ class ServiciosProductos {
       Object.id = nuevoId;
       Object.timestamp = Date.now();
 
-      await this.Dao.save(Object);
+      await this.repoProductos.save(Object);
 
       return Object;
     } catch (error) {
@@ -32,7 +30,7 @@ class ServiciosProductos {
   }
   async editById(id, Object) {
     try {
-      return await this.Dao.editById(id, Object);
+      return await this.repoProductos.editById(id, Object);
     } catch (error) {
       loggerConsole.error(error);
       loggerFile.error(error);
@@ -40,7 +38,7 @@ class ServiciosProductos {
   }
   async getById(Number) {
     try {
-      let resultado = await this.Dao.getById(Number);
+      let resultado = await this.repoProductos.getById(Number);
 
       resultado.productos && (resultado = resultado.productos);
 
@@ -52,7 +50,7 @@ class ServiciosProductos {
   }
   async getAll() {
     try {
-      return await this.Dao.getAll();
+      return await this.repoProductos.getAll();
     } catch (error) {
       loggerConsole.error(error);
       loggerFile.error(error);
@@ -60,7 +58,7 @@ class ServiciosProductos {
   }
   async deleteById(Number) {
     try {
-      return await this.Dao.deleteById(Number);
+      return await this.repoProductos.deleteById(Number);
     } catch (error) {
       loggerConsole.error(error);
       loggerFile.error(error);
