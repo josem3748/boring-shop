@@ -1,0 +1,37 @@
+<html lang="en">
+  <%- include('./partials/head'); %>
+  <body style="background-color: lightgray">
+    <div class="container">
+      <!-- Content here -->
+      <br />
+      <h1>API Login</h1>
+      <br />
+      <p>Test credentials:</p>
+      <p>USER: jose</p>
+      <p>PASS: 123</p>
+      <br />
+      <form action="/apilogin" method="post">
+        <div class="form-group">
+          <input
+            type="text"
+            class="form-control"
+            name="username"
+            id="username"
+            aria-describedby="emailHelp"
+            placeholder="Enter username"
+          />
+          <input
+            type="text"
+            class="form-control"
+            name="password"
+            id="password"
+            aria-describedby="emailHelp"
+            placeholder="Enter password"
+          />
+        </div>
+        <button type="submit" class="btn btn-primary">Send</button>
+      </form>
+    </div>
+  </body>
+  <%- include('./partials/footer'); %>
+</html>
