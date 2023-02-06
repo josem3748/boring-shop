@@ -1,9 +1,8 @@
 <html lang="en">
   <%- include('./partials/head'); %>
-  <body onload="onLoadRedirect()" style="background-color: lightgray">
+  <body style="background-color: lightgray">
     <%- include('./partials/header'); %>
     <div class="container">
-      <!-- Content here -->
       <br />
       <h1>Products</h1>
       <% if (body) { %>
@@ -13,6 +12,9 @@
             <th scope="col">Name</th>
             <th scope="col">Price</th>
             <th scope="col">Picture</th>
+            <% if (user) { %>
+            <th scope="col">ADC</th>
+            <% }; %>
           </tr>
         </thead>
         <tbody id="productos" style="color: gray">
@@ -22,6 +24,8 @@
       <% } else { %>
       <p>There is no data yet.</p>
       <% }; %>
+    </div>
+    <script src="/js/addtocart.js"></script>
+    <%- include('./partials/footer'); %>
   </body>
-  <%- include('./partials/footer'); %>
 </html>

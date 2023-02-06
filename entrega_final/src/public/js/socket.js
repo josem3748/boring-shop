@@ -1,4 +1,4 @@
-const socket = io(); // Ya podemos empezar a usar los sockets desde el cliente :)
+const socket = io();
 
 const addMessage = (e) => {
   if (document.getElementById("username").value === "")
@@ -50,28 +50,3 @@ socket.on("mensajes", (data) => {
   const divmensajes = document.getElementById("mensajes");
   if (divmensajes) divmensajes.innerHTML = html;
 });
-
-const onLoadRedirect = () => {
-  if (window.location.href.includes("logout")) {
-    setTimeout(() => {
-      window.location = "/login";
-    }, 2000);
-  }
-};
-
-document.addEventListener("DOMContentLoaded", function () {
-  const formElement = document.getElementById("registro-form");
-  if (formElement) {
-    formElement.addEventListener("submit", customHandler);
-  }
-});
-
-const customHandler = (e) => {
-  e.preventDefault();
-  const pass1 = document.getElementById("password").value;
-  const pass2 = document.getElementById("password-confirm").value;
-  if (pass1 !== pass2) {
-    return alert("Las contraseñas no coinciden.");
-  }
-  document.getElementById("registro-form").submit();
-};

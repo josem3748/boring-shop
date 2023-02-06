@@ -16,10 +16,7 @@ const loginGet = async (req, res) => {
 const loginPost = async (req, res) => {
   req.session.user = req.user;
   req.session.inicio = Date.now();
-  res.status(200).render("main", {
-    user: req.session.user,
-    lastuser: "",
-  });
+  res.redirect("/products");
 };
 
 const loginFailGet = async (req, res) => {

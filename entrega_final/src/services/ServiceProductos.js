@@ -64,16 +64,29 @@ class ServiciosProductos {
       loggerFile.error(error.stack);
     }
   }
-  async tablaProductos(data) {
-    return data
-      .map((elem, index) => {
-        return `<tr>
+  async tablaProductos(data, user) {
+    if (!user) {
+      return data
+        .map((elem, index) => {
+          return `<tr>
                   <td style="color: white;">${elem.nombre}</td>
                   <td style="color: white;">${elem.precio}</td>
                   <td><img src="${elem.foto}" /></td>
                 </tr>`;
-      })
-      .join(" ");
+        })
+        .join(" ");
+    } else {
+      return data
+        .map((elem, index) => {
+          return `<tr>
+                <td style="color: white;">${elem.nombre}</td>
+                <td style="color: white;">${elem.precio}</td>
+                <td><img src="${elem.foto}" /></td>
+                <td><input class="btn addtocart" type="button" id="${elem.id}" value="ADD TO CART"></td>
+              </tr>`;
+        })
+        .join(" ");
+    }
   }
 }
 

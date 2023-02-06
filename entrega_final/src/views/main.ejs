@@ -1,12 +1,10 @@
 <html lang="en">
   <%- include('./partials/head'); %>
-  <body onload="onLoadRedirect()" style="background-color: lightgray">
+  <body style="background-color: lightgray">
     <%- include('./partials/header'); %> <% if (user) { %>
     <div class="container">
-      <!-- Content here -->
       <br />
       <div class="container">
-        <!-- Content here -->
         <br />
         <h1>Your data</h1>
         <table class="table" style="background: white">
@@ -102,7 +100,6 @@
     <div class="container">
       <a href="/registro" class="btn btn-primary">Ir al registro</a>
     </div>
-    <% }; %> <% }; %>
+    <% }; %> <% }; %> <%- include('./partials/footer'); %>
   </body>
-  <%- include('./partials/footer'); %>
 </html>

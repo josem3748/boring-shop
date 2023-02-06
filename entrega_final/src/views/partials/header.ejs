@@ -8,7 +8,13 @@
     style="justify-content: flex-end"
   >
     <% if (user) { %>
-    <form action="/logout" method="get" style="margin: 0">
+    <form
+      id="logout-form"
+      action="/logout"
+      method="get"
+      style="margin: 0"
+      data-userid="<%= user._id %>"
+    >
       <span style="padding: 20">Bienvenido <%= user.name %></span>
       <a href="/cart" class="btn">Cart</a>
       <a href="/chat" class="btn">Chat</a>

@@ -6,7 +6,7 @@ const productsGet = async (req, res) => {
 
   res.status(200).render("products", {
     user: req.session.user,
-    body: await productos.tablaProductos(products),
+    body: await productos.tablaProductos(products, req.session.user),
   });
 };
 

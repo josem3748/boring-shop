@@ -1,9 +1,9 @@
 <html lang="en">
   <%- include('./partials/head'); %>
-  <body onload="onLoadRedirect()" style="background-color: lightgray">
+  <body style="background-color: lightgray">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/intlTelInput.min.js"></script>
     <%- include('./partials/header'); %>
     <div class="container">
-      <!-- Content here -->
       <br />
       <h1>Registro de Usuario</h1>
       <br />
@@ -87,6 +87,14 @@
     <div class="container">
       <a href="/login" class="btn btn-primary">Ir al login</a>
     </div>
+    <script>
+      const phoneInputField = document.querySelector("#phone");
+      const phoneInput = window.intlTelInput(phoneInputField, {
+        utilsScript:
+          "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/utils.js",
+      });
+    </script>
+    <script src="/js/registro.js"></script>
+    <%- include('./partials/footer'); %>
   </body>
-  <%- include('./partials/footer'); %>
 </html>
