@@ -5,6 +5,7 @@
 
 import express from "express";
 import { loggerConsole, loggerFile } from "./utils/loggers.js";
+import home from "./routes/home.js";
 import apilogin from "./routes/apilogin.js";
 import { auth } from "./middlewares/jwt.js";
 import apiProductos from "./routes/apiProductos.js";
@@ -28,6 +29,7 @@ const initServer = () => {
   app.use(express.json());
   app.use(express.urlencoded({ extended: true }));
   app.use(express.static("public"));
+  app.use("/", home);
   app.use("/", apilogin);
   app.use("/api/productos", auth, apiProductos);
   app.use("/api/carrito", auth, apiCarrito);

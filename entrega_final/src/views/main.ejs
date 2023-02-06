@@ -44,10 +44,17 @@
             <tr>
               <th scope="col">avatar</th>
               <th scope="col">
+                <% if (user.avatar) { %>
                 <img
                   src="/uploads/<%= user.avatar %>"
                   style="border-radius: 50%"
                 />
+                <% } else { %>
+                <img
+                  src="/uploads/generic-avatar.jpg"
+                  style="border-radius: 50%"
+                />
+                <% }; %>
               </th>
             </tr>
           </tbody>

@@ -1,3 +1,5 @@
+import { loggerConsole } from "../utils/loggers.js";
+import { loggerFile } from "../utils/loggers.js";
 import { ServiciosUsuarios } from "../services/ServiceUsuarios.js";
 import usuariosModel from "../models/usuariosModel.js";
 import { mailOptions } from "../middlewares/nodemailer.js";
@@ -62,7 +64,7 @@ passport.use(
           address: req.body.address,
           age: req.body.age,
           phone: req.body.phone,
-          avatar: req.file.filename,
+          avatar: req.file ? req.file.filename : "",
         };
         usuariosModel.create(newUser, (error, userWithId) => {
           if (error) {
