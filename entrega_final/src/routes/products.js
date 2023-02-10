@@ -1,7 +1,11 @@
 import express from "express";
 import cookieParser from "cookie-parser";
 import session from "express-session";
-import productsGet from "../controllers/ControllerProducts.js";
+import {
+  productsGet,
+  productsGetCategory,
+  productsGetById,
+} from "../controllers/ControllerProducts.js";
 
 const { Router } = express;
 const products = Router();
@@ -22,5 +26,7 @@ products.use(
 );
 
 products.get("/products", productsGet);
+products.get("/products/c/:categoria", productsGetCategory);
+products.get("/products/p/:id", productsGetById);
 
 export default products;

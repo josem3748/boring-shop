@@ -2,6 +2,7 @@ import express from "express";
 import {
   productosGetAll,
   productosGetId,
+  productosGetCategory,
   productosPost,
   productosPut,
   productosDelete,
@@ -12,6 +13,7 @@ const apiProductos = Router();
 
 apiProductos.get("/", productosGetAll);
 apiProductos.get("/:id", productosGetId);
+apiProductos.get("/c/:categoria", productosGetCategory);
 apiProductos.post("/", productosPost);
 apiProductos.put("/:id", productosPut);
 apiProductos.delete("/:id", productosDelete);

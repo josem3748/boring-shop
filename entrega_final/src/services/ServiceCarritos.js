@@ -128,10 +128,12 @@ class ServiciosCarritos {
     return data
       .map((elem, index) => {
         return `<tr>
-                    <td style="color: white;">${elem.nombre}</td>
+                    <td style="color: white;"><a href="/products/p/${elem.id}">${elem.nombre}</a></td>
                     <td><img src="${elem.foto}" /></td>
                     <td style="color: white;">${elem.qty}</td>
                     <td style="color: white;">${elem.precio}</td>
+                    <td><input class="btn addtocart" type="button" data-productid="${elem.id}" value="+"></td>
+                    <td><input class="btn removefromcart" type="button" data-productid="${elem.id}" value="-"></td>
                   </tr>`;
       })
       .join(" ");
@@ -142,7 +144,7 @@ class ServiciosCarritos {
       total += elem.precio * elem.qty;
     });
 
-    return total;
+    return Math.round((total + Number.EPSILON) * 100) / 100;
   }
   async sendMail(mailOptions) {
     try {

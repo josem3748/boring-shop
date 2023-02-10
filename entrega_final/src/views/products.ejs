@@ -13,7 +13,7 @@
             <th scope="col">Price</th>
             <th scope="col">Picture</th>
             <% if (user) { %>
-            <th scope="col">ADC</th>
+            <th scope="col">ATC</th>
             <% }; %>
           </tr>
         </thead>
@@ -21,7 +21,11 @@
           <%- body %>
         </tbody>
       </table>
-      <% } else { %>
+      <% if (!user) { %>
+      <div style="padding: 0">
+        <a href="/login" class="btn btn-primary">Login to buy...</a>
+      </div>
+      <% }; %> <% } else { %>
       <p>There is no data yet.</p>
       <% }; %>
     </div>

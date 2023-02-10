@@ -77,6 +77,8 @@ class repoCarritos {
 
       let carrito = carritos.find((elem) => elem.userid == ID);
 
+      if (!carrito) return;
+
       let productos = await this.DaoProductos.getAll();
       let carritoDetallado = [];
 

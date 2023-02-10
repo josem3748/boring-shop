@@ -1,0 +1,42 @@
+<html lang="en">
+  <%- include('./partials/head'); %>
+  <body style="background-color: lightgray">
+    <%- include('./partials/header'); %>
+    <div class="container">
+      <br />
+      <img src="<%= body.foto %>" style="float: right" />
+      <h1><%= body.nombre %></h1>
+      <ul>
+        <li>Id: <%= body.id %></li>
+        <li>Descripción: <%= body.descripcion %></li>
+        <li>Categorías: <%= body.categorias %></li>
+        <li>SKU: <%= body.codigo %></li>
+        <li>Precio: <%= body.precio %></li>
+        <li>Stock: <%= body.stock %></li>
+      </ul>
+      <hr />
+      <% if (user) { %>
+      <input
+        type="number"
+        value="1"
+        min="1"
+        name="cantidad"
+        id="cantidad"
+        style="width: 5%"
+      />
+      <input
+        class="btn addtocart"
+        type="button"
+        data-productid="<%= body.id %>"
+        value="ADD TO CART"
+      />
+      <% } else { %>
+      <div style="padding: 0">
+        <a href="/login" class="btn btn-primary">Login to buy...</a>
+      </div>
+      <% }; %>
+    </div>
+    <script src="/js/addtocart.js"></script>
+    <%- include('./partials/footer'); %>
+  </body>
+</html>

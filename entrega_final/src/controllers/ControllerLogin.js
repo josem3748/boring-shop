@@ -1,4 +1,5 @@
 import { loggerConsole } from "../utils/loggers.js";
+import { generateToken } from "../middlewares/jwt.js";
 
 const loginGet = async (req, res) => {
   req.session.inicio = Date.now();
@@ -16,6 +17,10 @@ const loginGet = async (req, res) => {
 const loginPost = async (req, res) => {
   req.session.user = req.user;
   req.session.inicio = Date.now();
+
+  const tokken = generateToken(req.user);
+  req.session.accesstokken = tokken;
+
   res.redirect("/products");
 };
 

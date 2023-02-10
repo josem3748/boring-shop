@@ -14,6 +14,12 @@ const productosGetId = async (req, res) => {
   res.send(resultado);
 };
 
+const productosGetCategory = async (req, res) => {
+  const { categoria } = req.params;
+  const resultado = await productos.getByCategory(categoria);
+  res.send(resultado);
+};
+
 const productosPost = async (req, res) => {
   if (administrador) {
     const productoAdicional = req.body;
@@ -57,6 +63,7 @@ const productosDelete = async (req, res) => {
 export {
   productosGetAll,
   productosGetId,
+  productosGetCategory,
   productosPost,
   productosPut,
   productosDelete,

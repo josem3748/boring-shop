@@ -5,7 +5,7 @@
     <div class="container">
       <br />
       <h1>Cart</h1>
-      <% if (user) { %>
+      <% if (user && body) { %>
       <table class="table" style="background-color: black; color: white">
         <thead>
           <tr>
@@ -13,6 +13,8 @@
             <th scope="col">Picture</th>
             <th scope="col">Qty</th>
             <th scope="col">Price</th>
+            <th scope="col">ATC</th>
+            <th scope="col">RFC</th>
           </tr>
         </thead>
         <tbody id="productos" style="color: gray">
@@ -23,10 +25,25 @@
       <form action="/cart" method="post" style="text-align: end">
         <button type="submit" class="btn">Buy now</button>
       </form>
+      <div style="padding: 0 0 16px 0; text-align: end">
+        <input
+          class="btn btn-secondary"
+          id="clearcart"
+          type="button"
+          value="Clear all"
+        />
+      </div>
+      <div style="padding: 0; text-align: end">
+        <a href="/products" class="btn btn-primary">Keep adding...</a>
+      </div>
       <% } else { %>
       <p>There is no data yet.</p>
+      <div style="padding: 0">
+        <a href="/products" class="btn btn-primary">Buy some shit...</a>
+      </div>
       <% }; %>
     </div>
+    <script src="/js/addtocart.js"></script>
     <%- include('./partials/footer'); %>
   </body>
 </html>

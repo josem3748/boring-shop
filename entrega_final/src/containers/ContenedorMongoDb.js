@@ -23,7 +23,14 @@ class ContenedorMongoDb {
 
       let registro = registros.find((elem) => elem.id == Number);
 
-      if (!registro) return (registro = { error: "registro no encontrado" });
+      if (!registro) {
+        registro = registros.find((elem) => elem._id == Number);
+
+        if (!registro) {
+          loggerConsole.info("El registro no existe.");
+          return { error: "registro no encontrado" };
+        }
+      }
 
       return registro;
     } catch (error) {
@@ -55,22 +62,39 @@ class ContenedorMongoDb {
       let registro = registros.find((registro) => registro.id === parseInt(id));
 
       if (!registro) {
-        return { error: "registro no encontrado" };
-      } else {
-        let keys = Object.keys(Objeto);
+        registro = registros.find((elem) => elem._id == Number);
 
-        await keys.forEach(async (elem) => {
-          const objeto = {};
-          objeto[elem] = Objeto[elem];
-          await this.model.updateOne({ id: id }, { $set: objeto });
-        });
+        if (!registro) {
+          loggerConsole.info("El registro no existe.");
+          return { error: "registro no encontrado" };
+        } else {
+          let keys = Object.keys(Objeto);
 
-        loggerConsole.info(`Registro editado con id ${id}`);
+          await keys.forEach(async (elem) => {
+            const objeto = {};
+            objeto[elem] = Objeto[elem];
+            registro[elem] = Objeto[elem];
+            await this.model.updateOne({ _id: id }, { $set: objeto });
+          });
 
-        const registroEditado = await this.model.findOne({ id: id });
+          loggerConsole.info(`Registro editado con id ${id}`);
 
-        return registroEditado;
+          return registro;
+        }
       }
+
+      let keys = Object.keys(Objeto);
+
+      await keys.forEach(async (elem) => {
+        const objeto = {};
+        objeto[elem] = Objeto[elem];
+        registro[elem] = Objeto[elem];
+        await this.model.updateOne({ id: id }, { $set: objeto });
+      });
+
+      loggerConsole.info(`Registro editado con id ${id}`);
+
+      return registro;
     } catch (error) {
       loggerConsole.error(error.stack);
       loggerFile.error(error.stack);
@@ -80,17 +104,23 @@ class ContenedorMongoDb {
     try {
       let registros = await this.model.find({});
 
-      const registro = registros.find((elem) => elem.id == Number);
+      let registro = registros.find((elem) => elem.id == Number);
 
       if (!registro) {
-        loggerConsole.info("El registro no existe.");
-        return { error: "registro no encontrado" };
+        registro = registros.find((elem) => elem._id == Number);
+
+        if (!registro) {
+          loggerConsole.info("El registro no existe.");
+          return { error: "registro no encontrado" };
+        } else {
+          await this.model.deleteOne({ _id: Number });
+          loggerConsole.info(`Registro con id ${Number} eliminado.`);
+          return registro;
+        }
       }
 
       await this.model.deleteOne({ id: Number });
-
-      loggerConsole.info(`Registro con ID ${Number} eliminado.`);
-
+      loggerConsole.info(`Registro con id ${Number} eliminado.`);
       return registro;
     } catch (error) {
       loggerConsole.error(error.stack);

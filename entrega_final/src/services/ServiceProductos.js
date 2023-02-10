@@ -56,6 +56,21 @@ class ServiciosProductos {
       loggerFile.error(error.stack);
     }
   }
+  async getByCategory(category) {
+    try {
+      let resultado = await this.repoProductos.getAll();
+      resultado = resultado.filter((elem) =>
+        elem.categorias.includes(category)
+      );
+      if (resultado.length < 1) {
+        return { error: "registros no encontrados" };
+      }
+      return resultado;
+    } catch (error) {
+      loggerConsole.error(error.stack);
+      loggerFile.error(error.stack);
+    }
+  }
   async deleteById(Number) {
     try {
       return await this.repoProductos.deleteById(Number);
@@ -69,7 +84,7 @@ class ServiciosProductos {
       return data
         .map((elem, index) => {
           return `<tr>
-                  <td style="color: white;">${elem.nombre}</td>
+                  <td style="color: white;"><a href="/products/p/${elem.id}">${elem.nombre}</a></td>
                   <td style="color: white;">${elem.precio}</td>
                   <td><img src="${elem.foto}" /></td>
                 </tr>`;
@@ -79,10 +94,10 @@ class ServiciosProductos {
       return data
         .map((elem, index) => {
           return `<tr>
-                <td style="color: white;">${elem.nombre}</td>
+                <td style="color: white;"><a href="/products/p/${elem.id}">${elem.nombre}</a></td>
                 <td style="color: white;">${elem.precio}</td>
                 <td><img src="${elem.foto}" /></td>
-                <td><input class="btn addtocart" type="button" id="${elem.id}" value="ADD TO CART"></td>
+                <td><input class="btn addtocart" type="button" data-productid="${elem.id}" value="ADD TO CART"></td>
               </tr>`;
         })
         .join(" ");

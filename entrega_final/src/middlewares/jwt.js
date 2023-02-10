@@ -25,11 +25,11 @@ const auth = (req, res, next) => {
       });
     }
 
-    if (decoded.data.username !== "jose" && decoded.data.password !== "123") {
-      return res.status(403).json({
-        error: "not authorized - login at /apilogin",
-      });
-    }
+    // if (decoded.data.username !== "jose" && decoded.data.password !== "123") {
+    //   return res.status(403).json({
+    //     error: "not authorized - login at /apilogin",
+    //   });
+    // }
 
     next();
   });

@@ -16,8 +16,10 @@ const cartGet = async (req, res) => {
   if (user) {
     const userid = user._id;
     const cart = await carrito.getByUserId(userid);
-    carritoActual = await carrito.tablaCarrito(cart);
-    totalActual = await carrito.totalCarrito(cart);
+    if (!cart.error) {
+      carritoActual = await carrito.tablaCarrito(cart);
+      totalActual = await carrito.totalCarrito(cart);
+    }
   }
 
   res.status(200).render("cart", {

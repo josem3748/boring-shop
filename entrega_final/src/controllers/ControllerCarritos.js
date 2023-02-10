@@ -8,7 +8,7 @@ const carritosGetAll = async (req, res) => {
 
 const carritosPost = async (req, res) => {
   const carritoAdicional = req.body;
-  const products = carritoAdicional.products;
+  const products = carritoAdicional.productos;
   const userid = carritoAdicional.userid;
   const resultado = await carrito.saveCart(products, userid);
   res.send({ idNuevoCarrito: resultado });
