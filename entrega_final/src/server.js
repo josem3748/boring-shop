@@ -15,6 +15,7 @@ import registro from "./routes/registro.js";
 import productos from "./routes/products.js";
 import cart from "./routes/cart.js";
 import chat from "./routes/chat.js";
+import images from "./routes/images.js";
 import noImplementada from "./controllers/ControllerNoImplementada.js";
 import { Server as HttpServer } from "http";
 import { Server as IOServer } from "socket.io";
@@ -38,6 +39,7 @@ const initServer = () => {
   app.use("/", productos);
   app.use("/", cart);
   app.use("/", chat);
+  app.use("/", images);
   app.use(noImplementada);
 
   const httpServer = new HttpServer(app);

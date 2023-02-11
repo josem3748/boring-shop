@@ -42,24 +42,6 @@ const productsGetById = async (req, res) => {
     user: req.session.user,
     body: product,
   });
-  /*
-  if (products.length > 0) {
-    res.status(200).render("products", {
-      user: req.session.user,
-      body: await productos.tablaProductos(products, req.session.user),
-    });
-  } else {
-    loggerConsole.warn(
-      `Ruta: '${req.originalUrl}' - Método: '${req.method}' - No implementada`
-    );
-    loggerFile.warn(
-      `Ruta: '${req.originalUrl}' - Método: '${req.method}' - No implementada`
-    );
-    res.json({
-      error: -2,
-      descripcion: `ruta '${req.originalUrl}' método '${req.method}' no implementada`,
-    });
-  } */
 };
 
 export { productsGet, productsGetCategory, productsGetById };
