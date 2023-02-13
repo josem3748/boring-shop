@@ -10,10 +10,10 @@
       <form>
         <input type="hidden" id="username" value="<%= user.address %>" />
         <input type="hidden" id="isadmin" value="<%= user.isadmin %>" />
-        <div id="mensajes"></div>
+        <div id="mensajes" data-email="<%= email %>"></div>
         <br />
         <input
-          style="width: 100%"
+          style="width: 80%"
           type="text"
           id="texto"
           placeholder="Cuéntanos algo..."
@@ -23,13 +23,31 @@
         <br />
         <br />
         <input
-          style="width: 100%"
+          style="width: 80%"
           type="text"
           id="response"
-          placeholder="Responder a... (Dejar vacío para mensaje público. Escribir email para responder privado. Ej: test@gmail.com)"
+          placeholder="Responder a... (Dejar vacío para mensaje público. Escribir email para responder por privado. Ej: test@gmail.com)"
+        />
+        <br />
+        <br />
+        <input
+          style="width: 80%"
+          type="text"
+          id="filter"
+          placeholder="Filtrar por... (Ej: test@gmail.com para ver solo los mensajes que tuvo con dicho usuario)"
+        />
+        <input
+          onclick="return redirectTo(this)"
+          type="button"
+          value="Filtrar"
         />
         <% }; %>
       </form>
+      <p>
+        Instrucciones: Si el usuario se registra como admin, podrá ver todas las
+        conversaciones. Si el usuario no se registra como admin, solo podrá ver
+        sus conversaciones y las respuestas del soporte (usuarios admin).
+      </p>
       <% } else { %>
       <p>There is no data yet.</p>
       <% }; %>

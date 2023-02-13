@@ -5,6 +5,13 @@ import {
   apiLoginGet,
   apiLoginPost,
 } from "../controllers/ControllerApiLogin.js";
+import * as dotenv from "dotenv";
+
+process.env.NODE_ENV === "development"
+  ? dotenv.config({
+      path: ".env.test",
+    })
+  : dotenv.config();
 
 const { Router } = express;
 const apilogin = Router();

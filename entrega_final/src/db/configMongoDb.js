@@ -2,7 +2,12 @@ import * as dotenv from "dotenv";
 import mongoose from "mongoose";
 import { loggerConsole } from "../utils/loggers.js";
 
-dotenv.config();
+process.env.NODE_ENV === "development"
+  ? dotenv.config({
+      path: ".env.test",
+    })
+  : dotenv.config();
+
 const URL = process.env.URL;
 
 let instance = null;

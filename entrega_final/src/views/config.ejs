@@ -3,38 +3,43 @@
   <body style="background-color: lightgray">
     <%- include('./partials/header'); %>
     <div class="container" style="text-align: center">
-      <h1>ENV Variables</h1>
+      <h1>Current ENV Variables</h1>
       <table class="table" style="background: white">
         <thead>
           <tr>
             <th scope="col">Key</th>
-            <th scope="col">Prod</th>
+            <th scope="col">Value</th>
           </tr>
         </thead>
         <tbody id="productos" style="color: gray">
           <tr>
             <th scope="col">URL</th>
-            <th scope="col"><%= prod.URL %></th>
+            <th scope="col"><%= config.URL %></th>
           </tr>
           <tr>
             <th scope="col">ADMIN</th>
-            <th scope="col"><%= prod.ADMIN %></th>
+            <th scope="col"><%= config.ADMIN %></th>
           </tr>
           <tr>
             <th scope="col">ADMINMAIL</th>
-            <th scope="col"><%= prod.ADMINMAIL %></th>
+            <th scope="col">
+              <%= config.ADMINMAIL %> |
+              <a href="https://ethereal.email/" target="_blank"
+                >Renovar servicio</a
+              >
+            </th>
           </tr>
           <tr>
             <th scope="col">ADMINPASS</th>
-            <th scope="col"><%= prod.ADMINPASS %></th>
+            <th scope="col"><%= config.ADMINPASS %></th>
           </tr>
           <tr>
             <th scope="col">PORT</th>
-            <th scope="col"><%= prod.PORT %></th>
+            <th scope="col"><%= config.PORT %></th>
           </tr>
           <tr>
             <th scope="col">SESSIONTIMEMINS</th>
-            <th scope="col"><%= prod.SESSIONTIMEMINS %></th>
+            <th scope="col"><%= config.SESSIONTIMEMINS %></th>
           </tr>
         </tbody>
       </table>

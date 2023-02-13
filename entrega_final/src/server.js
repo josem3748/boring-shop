@@ -4,12 +4,11 @@
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
 import express from "express";
-import { loggerConsole, loggerFile } from "./utils/loggers.js";
-import home from "./routes/home.js";
-import apilogin from "./routes/apilogin.js";
 import { auth } from "./middlewares/jwt.js";
+import apilogin from "./routes/apilogin.js";
 import apiProductos from "./routes/apiProductos.js";
 import apiCarrito from "./routes/apiCarrito.js";
+import home from "./routes/home.js";
 import info from "./routes/info.js";
 import config from "./routes/config.js";
 import login from "./routes/login.js";
@@ -19,6 +18,7 @@ import cart from "./routes/cart.js";
 import chat from "./routes/chat.js";
 import images from "./routes/images.js";
 import noImplementada from "./controllers/ControllerNoImplementada.js";
+import { loggerConsole, loggerFile } from "./utils/loggers.js";
 import { Server as HttpServer } from "http";
 import { Server as IOServer } from "socket.io";
 import ServiciosMensajes from "./services/ServiceMensajes.js";
@@ -34,10 +34,10 @@ const initServer = () => {
   app.use(express.json());
   app.use(express.urlencoded({ extended: true }));
   app.use(express.static("public"));
-  app.use("/", home);
   app.use("/", apilogin);
   app.use("/api/productos", auth, apiProductos);
   app.use("/api/carrito", auth, apiCarrito);
+  app.use("/", home);
   app.use("/info", auth, info);
   app.use("/config", auth, config);
   app.use("/", login);

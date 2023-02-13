@@ -34,12 +34,20 @@ const addMessage = (e) => {
   return false;
 };
 
+const redirectTo = (e) => {
+  const emailFiltro = document.getElementById("filter").value;
+  return (window.location = `/chat/${emailFiltro}`);
+};
+
 socket.on("mensajes", (data, users) => {
   const userid = document
     .getElementById("logout-form")
     .getAttribute("data-userid");
 
   const user = users.find((elem) => elem._id == userid);
+
+  let filtro = document.getElementById("mensajes").getAttribute("data-email");
+  console.log(filtro);
 
   let datos;
 
@@ -48,6 +56,14 @@ socket.on("mensajes", (data, users) => {
       elem.author.id == user.address ||
       (elem.tipo == "sistema" &&
         (elem.respuesta == "" || elem.respuesta == user.address))
+        ? true
+        : false
+    );
+  } else if (filtro !== "") {
+    datos = data.filter((elem) =>
+      elem.author.id == filtro ||
+      (elem.tipo == "sistema" &&
+        (elem.respuesta == "" || elem.respuesta == filtro))
         ? true
         : false
     );
