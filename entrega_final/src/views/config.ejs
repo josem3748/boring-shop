@@ -1,0 +1,44 @@
+<html lang="en">
+  <%- include('./partials/head'); %>
+  <body style="background-color: lightgray">
+    <%- include('./partials/header'); %>
+    <div class="container" style="text-align: center">
+      <h1>ENV Variables</h1>
+      <table class="table" style="background: white">
+        <thead>
+          <tr>
+            <th scope="col">Key</th>
+            <th scope="col">Prod</th>
+          </tr>
+        </thead>
+        <tbody id="productos" style="color: gray">
+          <tr>
+            <th scope="col">URL</th>
+            <th scope="col"><%= prod.URL %></th>
+          </tr>
+          <tr>
+            <th scope="col">ADMIN</th>
+            <th scope="col"><%= prod.ADMIN %></th>
+          </tr>
+          <tr>
+            <th scope="col">ADMINMAIL</th>
+            <th scope="col"><%= prod.ADMINMAIL %></th>
+          </tr>
+          <tr>
+            <th scope="col">ADMINPASS</th>
+            <th scope="col"><%= prod.ADMINPASS %></th>
+          </tr>
+          <tr>
+            <th scope="col">PORT</th>
+            <th scope="col"><%= prod.PORT %></th>
+          </tr>
+          <tr>
+            <th scope="col">SESSIONTIMEMINS</th>
+            <th scope="col"><%= prod.SESSIONTIMEMINS %></th>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <%- include('./partials/footer'); %>
+  </body>
+</html>

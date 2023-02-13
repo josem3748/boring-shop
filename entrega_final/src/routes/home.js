@@ -13,7 +13,7 @@ home.use(
     cookie: {
       httpOnly: false,
       secure: false,
-      maxAge: 10 * 60 * 1000,
+      maxAge: process.env.SESSIONTIMEMINS * 60 * 1000,
     },
     rolling: true,
     resave: true,

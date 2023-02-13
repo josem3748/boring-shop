@@ -47,13 +47,19 @@
             required
           />
           <input
-            type="text"
+            type="email"
             class="form-control"
             name="address"
             id="address"
-            placeholder="Enter address"
+            placeholder="Enter email address"
             required
           />
+          <label for="address"
+            >Para recibir notificaciones utilizar
+            <a href="https://ethereal.email/" target="_blank"
+              >ethereal.email</a
+            ></label
+          >
           <input
             type="number"
             class="form-control"
@@ -80,6 +86,15 @@
             id="avatar"
             placeholder="Enter avatar"
           />
+          <div class="form-control">
+            <label for="isadmin" style="margin: 0">Is admin?</label
+            ><input
+              type="checkbox"
+              name="isadmin"
+              id="isadmin"
+              style="margin: 5px"
+            />
+          </div>
         </div>
         <button type="submit" class="btn btn-primary">Send</button>
       </form>

@@ -4,26 +4,31 @@
     <%- include('./partials/header'); %>
     <div class="container">
       <br />
-      <h1>Chat</h1>
+      <h1>Chat de soporte</h1>
       <% if (user) { %>
+      <p>Escribe aquí tus consultas</p>
       <form>
-        <input type="text" id="username" placeholder="Tu email" />
-        <br /><br />
-        <input type="text" id="firstname" placeholder="Tu nombre" />
-        <br /><br />
-        <input type="text" id="lastname" placeholder="Tu apellido" />
-        <br /><br />
-        <input type="text" id="age" placeholder="Tu edad" />
-        <br /><br />
-        <input type="text" id="alias" placeholder="Tu alias" />
-        <br /><br />
-        <input type="text" id="avatar" placeholder="Tu avatar" />
-        <br />
-        <br />
+        <input type="hidden" id="username" value="<%= user.address %>" />
+        <input type="hidden" id="isadmin" value="<%= user.isadmin %>" />
         <div id="mensajes"></div>
         <br />
-        <input type="text" id="texto" placeholder="Cuéntanos algo..." />
+        <input
+          style="width: 100%"
+          type="text"
+          id="texto"
+          placeholder="Cuéntanos algo..."
+        />
         <input onclick="return addMessage(this)" type="button" value="Enviar" />
+        <% if (user.isadmin) { %>
+        <br />
+        <br />
+        <input
+          style="width: 100%"
+          type="text"
+          id="response"
+          placeholder="Responder a... (Dejar vacío para mensaje público. Escribir email para responder privado. Ej: test@gmail.com)"
+        />
+        <% }; %>
       </form>
       <% } else { %>
       <p>There is no data yet.</p>

@@ -6,9 +6,7 @@ document.addEventListener("DOMContentLoaded", function () {
       element.addEventListener("click", addToCart.bind(null, productid));
     });
   }
-});
 
-document.addEventListener("DOMContentLoaded", function () {
   const removeFromCartsButtons =
     document.getElementsByClassName("removefromcart");
   if (removeFromCartsButtons.length > 0) {
@@ -17,12 +15,27 @@ document.addEventListener("DOMContentLoaded", function () {
       element.addEventListener("click", removeFromCart.bind(null, productid));
     });
   }
-});
 
-document.addEventListener("DOMContentLoaded", function () {
   const clearCartButton = document.getElementById("clearcart");
   if (clearCartButton) {
     clearCartButton.addEventListener("click", clearCart);
+  }
+
+  const addAddressButton = document.getElementById("agregardireccionentrega");
+  if (addAddressButton) {
+    addAddressButton.addEventListener("click", addAddress);
+  }
+
+  const deleteAddressButton = document.getElementById(
+    "cambiardireccionentrega"
+  );
+  if (deleteAddressButton) {
+    deleteAddressButton.addEventListener("click", deleteAddress);
+  }
+
+  const buyForm = document.getElementById("formdecompra");
+  if (buyForm) {
+    buyForm.addEventListener("submit", checkearDire);
   }
 });
 
@@ -112,6 +125,21 @@ const postCarrito = async (carrito) => {
   };
 
   return fetch("/api/carrito/", requestOptions).then((response) =>
+    response.json()
+  );
+};
+
+const putCarrito = async (carritoid, carritoCambios) => {
+  const requestOptions = {
+    method: "PUT",
+    headers: {
+      Accept: "application/json",
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(carritoCambios),
+  };
+
+  return fetch(`/api/carrito/${carritoid}`, requestOptions).then((response) =>
     response.json()
   );
 };
@@ -223,4 +251,58 @@ const clearCart = async () => {
   await deleteCarrito(carrito.id);
   alert("Carrito eliminado.");
   return (window.location = "/cart");
+};
+
+const addAddress = async () => {
+  const userid = document
+    .getElementById("logout-form")
+    .getAttribute("data-userid");
+
+  const direccion = document.getElementById("cartaddress").value;
+
+  if (!direccion) return alert("Debe agregar una dirección.");
+
+  const carritos = await getAllCarritos();
+  let carrito = carritos.find((elem) => elem.userid == userid);
+
+  let cambiosCarrito = {
+    cartid: carrito.id,
+    cambios: {
+      address: direccion,
+    },
+  };
+
+  await putCarrito(carrito.id, cambiosCarrito);
+  alert("Dirección agregada.");
+  return (window.location = "/cart");
+};
+
+const deleteAddress = async () => {
+  const userid = document
+    .getElementById("logout-form")
+    .getAttribute("data-userid");
+
+  const carritos = await getAllCarritos();
+  let carrito = carritos.find((elem) => elem.userid == userid);
+
+  let cambiosCarrito = {
+    cartid: carrito.id,
+    cambios: {
+      address: "",
+    },
+  };
+
+  await putCarrito(carrito.id, cambiosCarrito);
+  alert("Dirección eliminada.");
+  return (window.location = "/cart");
+};
+
+const checkearDire = (e) => {
+  e.preventDefault();
+  const botonAgregar = document.getElementById("agregardireccionentrega");
+
+  if (botonAgregar) {
+    return alert("Por favor agrega una dirección de entrega.");
+  }
+  document.getElementById("formdecompra").submit();
 };

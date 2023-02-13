@@ -1,6 +1,5 @@
 import { loggerConsole, loggerFile } from "../utils/loggers.js";
 import { transporter } from "../middlewares/nodemailer.js";
-import { client } from "../middlewares/twilio.js";
 import repoCarritos from "../repos/repoCarritos.js";
 
 class ServiciosCarritos {
@@ -37,6 +36,14 @@ class ServiciosCarritos {
       await this.repoCarritos.save(nuevoCarrito);
 
       return nuevoId;
+    } catch (error) {
+      loggerConsole.error(error.stack);
+      loggerFile.error(error.stack);
+    }
+  }
+  async editById(id, Object) {
+    try {
+      return await this.repoCarritos.editById(id, Object);
     } catch (error) {
       loggerConsole.error(error.stack);
       loggerFile.error(error.stack);
@@ -114,9 +121,9 @@ class ServiciosCarritos {
       loggerFile.error(error.stack);
     }
   }
-  async getByUserId(ID) {
+  async getByUserId(id) {
     try {
-      let carrito = await this.repoCarritos.getByUserId(ID);
+      let carrito = await this.repoCarritos.getByUserId(id);
       if (!carrito) return (carrito = { error: "registro no encontrado" });
       return carrito;
     } catch (error) {
@@ -138,6 +145,17 @@ class ServiciosCarritos {
       })
       .join(" ");
   }
+  async tablaCarritoEmail(data) {
+    return data
+      .map((elem, index) => {
+        return `<tr>
+                    <td style="color: white;">${elem.nombre}</td>
+                    <td style="color: white;">${elem.qty}</td>
+                    <td style="color: white;">${elem.precio}</td>
+                  </tr>`;
+      })
+      .join(" ");
+  }
   async totalCarrito(data) {
     let total = 0;
     data.forEach((elem) => {
@@ -150,24 +168,6 @@ class ServiciosCarritos {
     try {
       const info = await transporter.sendMail(mailOptions);
       loggerConsole.info(info);
-    } catch (error) {
-      loggerConsole.error(error.stack);
-      loggerFile.error(error.stack);
-    }
-  }
-  async sendSms(messageOptions) {
-    try {
-      const message = await client.messages.create(messageOptions);
-      loggerConsole.info(message);
-    } catch (error) {
-      loggerConsole.error(error.stack);
-      loggerFile.error(error.stack);
-    }
-  }
-  async sendWap(wapOptions) {
-    try {
-      const message = await client.messages.create(wapOptions);
-      loggerConsole.info(message);
     } catch (error) {
       loggerConsole.error(error.stack);
       loggerFile.error(error.stack);

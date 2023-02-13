@@ -10,6 +10,7 @@ const UsuarioSchema = new mongoose.Schema({
   age: { type: String },
   phone: { type: String },
   avatar: { type: String },
+  isadmin: { type: String },
 });
 
 const usuariosModel = mongoose.model(usuariosCollection, UsuarioSchema);

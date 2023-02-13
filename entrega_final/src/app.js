@@ -1,4 +1,4 @@
-import initServer from "./server.js";
+import { initServer } from "./server.js";
 import { loggerConsole } from "./utils/loggers.js";
 import cluster from "cluster";
 import os from "os";

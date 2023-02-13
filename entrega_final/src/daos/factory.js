@@ -1,4 +1,5 @@
 import CarritosDaoMongoDb from "./carritos/CarritosDaoMongoDb.js";
+import OrdenesDaoMongoDb from "./ordenes/OrdenesDaoMongoDb.js";
 import MensajesDaoMongoDb from "./mensajes/MensajesDaoMongoDb.js";
 import ProductosDaoMongoDb from "./productos/ProductosDaoMongoDb.js";
 import { UsuariosDaoMongoDb } from "./usuarios/UsuariosDaoMongoDb.js";
@@ -13,6 +14,8 @@ class Db {
         switch (dao) {
           case "carritos":
             return new CarritosDaoMongoDb();
+          case "ordenes":
+            return new OrdenesDaoMongoDb();
           case "mensajes":
             return new MensajesDaoMongoDb();
           case "productos":

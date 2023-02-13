@@ -1,7 +1,7 @@
 import ServiciosProductos from "../services/ServiceProductos.js";
 const productos = new ServiciosProductos();
 
-const administrador = process.env.admin;
+const administrador = process.env.ADMIN;
 
 const productosGetAll = async (req, res) => {
   const resultado = await productos.getAll();

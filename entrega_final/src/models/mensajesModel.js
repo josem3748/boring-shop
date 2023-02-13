@@ -5,14 +5,11 @@ const mensajesCollection = "mensajes";
 const MensajeSchema = new mongoose.Schema({
   author: {
     id: { type: String },
-    nombre: { type: String },
-    apellido: { type: String },
-    edad: { type: String },
-    alias: { type: String },
-    avatar: { type: String },
   },
+  tipo: { type: String },
   fecha: { type: String },
   text: { type: String },
+  respuesta: { type: String },
 });
 
 const mensajesModel = mongoose.model(mensajesCollection, MensajeSchema);

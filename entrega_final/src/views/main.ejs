@@ -3,6 +3,31 @@
   <body style="background-color: lightgray">
     <%- include('./partials/header'); %> <% if (user) { %>
     <div class="container">
+      <% if (ordenes.length >0) { %>
+      <br />
+      <div class="container">
+        <br />
+        <h1>Your orders</h1>
+        <table class="table" style="background: white">
+          <thead>
+            <tr>
+              <th scope="col">ID</th>
+              <th scope="col">DATE</th>
+              <th scope="col">STATUS</th>
+            </tr>
+          </thead>
+          <tbody id="productos" style="color: gray">
+            <% for(let i=0; i < ordenes.length; i++) { %>
+            <tr>
+              <td><%= ordenes[i].id %></td>
+              <td><%= new Date(ordenes[i].timestamp) %></td>
+              <td><%= ordenes[i].estado %></td>
+            </tr>
+            <% } %>
+          </tbody>
+        </table>
+      </div>
+      <% }; %>
       <br />
       <div class="container">
         <br />
@@ -28,7 +53,7 @@
               <th scope="col"><%= user.name %></th>
             </tr>
             <tr>
-              <th scope="col">address</th>
+              <th scope="col">email address</th>
               <th scope="col"><%= user.address %></th>
             </tr>
             <tr>
@@ -38,6 +63,14 @@
             <tr>
               <th scope="col">phone</th>
               <th scope="col"><%= user.phone %></th>
+            </tr>
+            <tr>
+              <th scope="col">is admin?</th>
+              <% if (user.isadmin) { %>
+              <th scope="col">yes</th>
+              <% } else { %>
+              <th scope="col">no</th>
+              <% }; %>
             </tr>
             <tr>
               <th scope="col">avatar</th>
@@ -86,7 +119,7 @@
             placeholder="Enter username"
           />
           <input
-            type="text"
+            type="password"
             class="form-control"
             name="password"
             id="password"

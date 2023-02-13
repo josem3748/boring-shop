@@ -14,6 +14,13 @@ const carritosPost = async (req, res) => {
   res.send({ idNuevoCarrito: resultado });
 };
 
+const carritosPut = async (req, res) => {
+  const cartid = req.body.cartid;
+  const cambios = req.body.cambios;
+  const resultado = await carrito.editById(cartid, cambios);
+  res.send({ idNuevoCarrito: resultado });
+};
+
 const carritosDelete = async (req, res) => {
   const { id } = req.params;
   const resultado = await carrito.deleteById(id);
@@ -42,6 +49,7 @@ const carritosDeleteId = async (req, res) => {
 export {
   carritosGetAll,
   carritosPost,
+  carritosPut,
   carritosDelete,
   carritosGetId,
   carritosPostId,

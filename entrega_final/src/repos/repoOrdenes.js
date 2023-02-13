@@ -1,5 +1,4 @@
 import { loggerConsole, loggerFile } from "../utils/loggers.js";
-import { transporter } from "../middlewares/nodemailer.js";
 import Db from "../daos/factory.js";
 import yargs from "yargs";
 
@@ -9,9 +8,9 @@ const args = yargs(process.argv.slice(2))
 
 const factory = new Db(args.db);
 
-class repoUsuarios {
+class repoOrdenes {
   constructor() {
-    this.Dao = factory.instanceDao("usuarios");
+    this.Dao = factory.instanceDao("ordenes");
   }
   async getAll() {
     try {
@@ -21,19 +20,26 @@ class repoUsuarios {
       loggerFile.error(error.stack);
     }
   }
-  async getById(Number) {
+  async save(Object) {
     try {
-      let resultado = await this.Dao.getById(Number);
-      return resultado;
+      await this.Dao.save(Object);
+      return Object;
     } catch (error) {
       loggerConsole.error(error.stack);
       loggerFile.error(error.stack);
     }
   }
-  async sendMail(mailOptions) {
+  async deleteById(Number) {
     try {
-      const info = await transporter.sendMail(mailOptions);
-      loggerConsole.info(info);
+      return await this.Dao.deleteById(Number);
+    } catch (error) {
+      loggerConsole.error(error.stack);
+      loggerFile.error(error.stack);
+    }
+  }
+  async editById(id, objeto) {
+    try {
+      return await this.Dao.editById(id, objeto);
     } catch (error) {
       loggerConsole.error(error.stack);
       loggerFile.error(error.stack);
@@ -41,4 +47,4 @@ class repoUsuarios {
   }
 }
 
-export default repoUsuarios;
+export default repoOrdenes;

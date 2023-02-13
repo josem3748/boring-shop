@@ -12,7 +12,7 @@ const auth = (req, res, next) => {
 
   if (!authHeader) {
     return res.status(401).json({
-      error: "not authenticated - login at /apilogin",
+      error: "not authenticated - login at /apilogin or at /login",
     });
   }
 
@@ -21,13 +21,13 @@ const auth = (req, res, next) => {
   jwt.verify(token, PRIVATE_KEY, (err, decoded) => {
     if (err) {
       return res.status(403).json({
-        error: "expired - login at /apilogin",
+        error: "expired - login at /apilogin or at /login",
       });
     }
 
     // if (decoded.data.username !== "jose" && decoded.data.password !== "123") {
     //   return res.status(403).json({
-    //     error: "not authorized - login at /apilogin",
+    //     error: "not authorized - login at /apilogin or at /login",
     //   });
     // }
 

@@ -2,7 +2,7 @@ import { loggerConsole } from "../utils/loggers.js";
 import { loggerFile } from "../utils/loggers.js";
 import { ServiciosUsuarios } from "../services/ServiceUsuarios.js";
 import usuariosModel from "../models/usuariosModel.js";
-import { mailOptions } from "../middlewares/nodemailer.js";
+import { mailOptions, ADMIN_MAIL } from "../middlewares/nodemailer.js";
 import express from "express";
 import cookieParser from "cookie-parser";
 import session from "express-session";
@@ -65,6 +65,7 @@ passport.use(
           age: req.body.age,
           phone: req.body.phone,
           avatar: req.file ? req.file.filename : "",
+          isadmin: req.body.isadmin ? "yes" : "no",
         };
         usuariosModel.create(newUser, (error, userWithId) => {
           if (error) {
@@ -75,7 +76,8 @@ passport.use(
 
           ////////// Nodemailer ///////////
 
-          mailOptions.subject = "nuevo registro";
+          mailOptions.subject = "Registro exitoso!";
+          mailOptions.to = newUser.address;
           mailOptions.html = `
           
           username: ${newUser.username}<br>
@@ -83,15 +85,19 @@ passport.use(
           address: ${newUser.address}<br>
           age: ${newUser.age}<br>
           phone: ${newUser.phone}<br>
-          avatar: ${newUser.avatar}
+          avatar: ${newUser.avatar}<br>
+          isadmin: ${newUser.isadmin}
           
           `;
 
           usuarios.sendMail(mailOptions);
 
+          mailOptions.subject = "Nuevo registro";
+          mailOptions.to = ADMIN_MAIL;
+          usuarios.sendMail(mailOptions);
+
           ////////////////////////////////
 
-          //loggerConsole.info(user);
           loggerConsole.info("User Registration succesful");
           return done(null, userWithId);
         });
@@ -115,7 +121,7 @@ app.use(
     cookie: {
       httpOnly: false,
       secure: false,
-      maxAge: 10 * 60 * 1000,
+      maxAge: process.env.SESSIONTIMEMINS * 60 * 1000,
     },
     rolling: true,
     resave: true,

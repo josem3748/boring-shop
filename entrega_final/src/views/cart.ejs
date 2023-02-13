@@ -5,7 +5,31 @@
     <div class="container">
       <br />
       <h1>Cart</h1>
-      <% if (user && body) { %>
+      <% if (user && body) { %> <% if (address) { %>
+      <br />
+      <label for="cambiardireccionentrega">Dirección de entrega: </label>
+      <input style="width: 50%" placeholder="<%= address %>" disabled />
+      <button class="btn btn-primary" id="cambiardireccionentrega">
+        Cambiar dirección
+      </button>
+      <br />
+      <br />
+      <% } else { %>
+      <br />
+      <input
+        class="form-control"
+        type="text"
+        style="width: 70%; display: inline"
+        placeholder="No olvides agregar tu dirección de entrega antes de comprar."
+        name="cartaddress"
+        id="cartaddress"
+      />
+      <button class="btn btn-primary" id="agregardireccionentrega">
+        Agregar dirección
+      </button>
+      <br />
+      <br />
+      <% }; %>
       <table class="table" style="background-color: black; color: white">
         <thead>
           <tr>
@@ -22,7 +46,12 @@
         </tbody>
       </table>
       <p style="text-align: end">Total: <strong><%= total %></strong></p>
-      <form action="/cart" method="post" style="text-align: end">
+      <form
+        id="formdecompra"
+        action="/cart"
+        method="post"
+        style="text-align: end"
+      >
         <button type="submit" class="btn">Buy now</button>
       </form>
       <div style="padding: 0 0 16px 0; text-align: end">

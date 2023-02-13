@@ -3,16 +3,6 @@ const socket = io();
 const addMessage = (e) => {
   if (document.getElementById("username").value === "")
     return alert("Email obligatorio");
-  if (document.getElementById("firstname").value === "")
-    return alert("Nombre obligatorio");
-  if (document.getElementById("lastname").value === "")
-    return alert("Apellido obligatorio");
-  if (document.getElementById("age").value === "")
-    return alert("Edad obligatorio");
-  if (document.getElementById("alias").value === "")
-    return alert("Alias obligatorio");
-  if (document.getElementById("avatar").value === "")
-    return alert("Avatar obligatorio");
 
   const options = {
     year: "numeric",
@@ -25,26 +15,59 @@ const addMessage = (e) => {
   const now = new Date();
   const nowFormated = now.toLocaleDateString("es-AR", options).replace(",", "");
 
+  const isadmin = document.getElementById("isadmin").value
+    ? "sistema"
+    : "usuario";
+
   const mensaje = {
     author: {
       id: document.getElementById("username").value,
-      nombre: document.getElementById("firstname").value,
-      apellido: document.getElementById("lastname").value,
-      edad: document.getElementById("age").value,
-      alias: document.getElementById("alias").value,
-      avatar: document.getElementById("avatar").value,
     },
+    tipo: isadmin,
     fecha: nowFormated,
     text: document.getElementById("texto").value,
+    respuesta: document.getElementById("response")
+      ? document.getElementById("response").value
+      : "",
   };
   socket.emit("mensaje", mensaje);
   return false;
 };
 
-socket.on("mensajes", (data) => {
-  const html = data
+socket.on("mensajes", (data, users) => {
+  const userid = document
+    .getElementById("logout-form")
+    .getAttribute("data-userid");
+
+  const user = users.find((elem) => elem._id == userid);
+
+  let datos;
+
+  if (!user.isadmin) {
+    datos = data.filter((elem) =>
+      elem.author.id == user.address ||
+      (elem.tipo == "sistema" &&
+        (elem.respuesta == "" || elem.respuesta == user.address))
+        ? true
+        : false
+    );
+  } else {
+    datos = data;
+  }
+
+  const html = datos
     .map((elem, index) => {
-      return `<div><strong style="color: blue;">${elem.author.id}</strong> <span style="color: brown;">${elem.fecha}</span>: <em style="color: green;">${elem.text}</em><img src="${elem.author.avatar}" /></div>`;
+      const email =
+        elem.tipo == "usuario"
+          ? '<strong style="color: blue;">: ' + elem.author.id + "</strong>"
+          : "";
+
+      const respuesta =
+        elem.tipo == "sistema"
+          ? '<strong style="color: black;">-> ' + elem.respuesta + "</strong>"
+          : "";
+
+      return `<div><strong style="color: blue;">${elem.tipo}</strong>${respuesta}${email} <span style="color: brown;">${elem.fecha}</span>: <em style="color: green;">${elem.text}</em></div>`;
     })
     .join(" ");
   const divmensajes = document.getElementById("mensajes");

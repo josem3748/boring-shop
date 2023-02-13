@@ -10,6 +10,8 @@ import apilogin from "./routes/apilogin.js";
 import { auth } from "./middlewares/jwt.js";
 import apiProductos from "./routes/apiProductos.js";
 import apiCarrito from "./routes/apiCarrito.js";
+import info from "./routes/info.js";
+import config from "./routes/config.js";
 import login from "./routes/login.js";
 import registro from "./routes/registro.js";
 import productos from "./routes/products.js";
@@ -20,8 +22,10 @@ import noImplementada from "./controllers/ControllerNoImplementada.js";
 import { Server as HttpServer } from "http";
 import { Server as IOServer } from "socket.io";
 import ServiciosMensajes from "./services/ServiceMensajes.js";
+import { ServiciosUsuarios } from "./services/ServiceUsuarios.js";
 
 const app = express();
+const PORT = process.env.PORT || 8080;
 
 const initServer = () => {
   app.set("view engine", "ejs");
@@ -34,6 +38,8 @@ const initServer = () => {
   app.use("/", apilogin);
   app.use("/api/productos", auth, apiProductos);
   app.use("/api/carrito", auth, apiCarrito);
+  app.use("/info", auth, info);
+  app.use("/config", auth, config);
   app.use("/", login);
   app.use("/", registro);
   app.use("/", productos);
@@ -43,18 +49,23 @@ const initServer = () => {
   app.use(noImplementada);
 
   const httpServer = new HttpServer(app);
-  const PORT = process.env.PORT || 8080;
 
   const io = new IOServer(httpServer);
   const chats = new ServiciosMensajes();
+  const users = new ServiciosUsuarios();
+
   const socketio = async (socket) => {
     const mensajes = await chats.getMessages();
+    const usuarios = await users.getAll();
 
-    socket.emit("mensajes", mensajes);
+    socket.emit("mensajes", mensajes, usuarios);
+
     socket.on("mensaje", async (data) => {
       await chats.sendMessage(data);
       const mensajes = await chats.getMessages();
-      io.sockets.emit("mensajes", mensajes);
+      const usuarios = await users.getAll();
+
+      io.sockets.emit("mensajes", mensajes, usuarios);
     });
   };
   io.on("connection", socketio);
@@ -73,4 +84,4 @@ const initServer = () => {
   return server;
 };
 
-export default initServer;
+export { initServer, PORT };
