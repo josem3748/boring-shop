@@ -62,7 +62,7 @@ class ContenedorMongoDb {
       let registro = registros.find((registro) => registro.id === parseInt(id));
 
       if (!registro) {
-        registro = registros.find((elem) => elem._id == Number);
+        registro = registros.find((elem) => elem._id == id);
 
         if (!registro) {
           loggerConsole.info("El registro no existe.");
