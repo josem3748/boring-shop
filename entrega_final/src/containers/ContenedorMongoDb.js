@@ -17,14 +17,12 @@ class ContenedorMongoDb {
       loggerFile.error(error.stack);
     }
   }
-  async getById(Number) {
+  async getById(id) {
     try {
-      let registros = await this.model.find({});
-
-      let registro = registros.find((elem) => elem.id == Number);
+      let registro = await this.model.findOne({ id: id });
 
       if (!registro) {
-        registro = registros.find((elem) => elem._id == Number);
+        registro = await this.model.findOne({ _id: id });
 
         if (!registro) {
           loggerConsole.info("El registro no existe.");
@@ -57,12 +55,10 @@ class ContenedorMongoDb {
   }
   async editById(id, Objeto) {
     try {
-      let registros = await this.model.find({});
-
-      let registro = registros.find((registro) => registro.id === parseInt(id));
+      let registro = await this.model.findOne({ id: id });
 
       if (!registro) {
-        registro = registros.find((elem) => elem._id == id);
+        registro = await this.model.findOne({ _id: id });
 
         if (!registro) {
           loggerConsole.info("El registro no existe.");
@@ -100,27 +96,25 @@ class ContenedorMongoDb {
       loggerFile.error(error.stack);
     }
   }
-  async deleteById(Number) {
+  async deleteById(id) {
     try {
-      let registros = await this.model.find({});
-
-      let registro = registros.find((elem) => elem.id == Number);
+      let registro = await this.model.findOne({ id: id });
 
       if (!registro) {
-        registro = registros.find((elem) => elem._id == Number);
+        registro = await this.model.findOne({ _id: id });
 
         if (!registro) {
           loggerConsole.info("El registro no existe.");
           return { error: "registro no encontrado" };
         } else {
-          await this.model.deleteOne({ _id: Number });
-          loggerConsole.info(`Registro con id ${Number} eliminado.`);
+          await this.model.deleteOne({ _id: id });
+          loggerConsole.info(`Registro con id ${id} eliminado.`);
           return registro;
         }
       }
 
-      await this.model.deleteOne({ id: Number });
-      loggerConsole.info(`Registro con id ${Number} eliminado.`);
+      await this.model.deleteOne({ id: id });
+      loggerConsole.info(`Registro con id ${id} eliminado.`);
       return registro;
     } catch (error) {
       loggerConsole.error(error.stack);
