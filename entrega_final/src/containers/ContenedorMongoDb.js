@@ -19,15 +19,17 @@ class ContenedorMongoDb {
   }
   async getById(id) {
     try {
-      let registro = await this.model.findOne({ id: id });
+      let registro;
+
+      if (id / id == 1) {
+        registro = await this.model.findOne({ id: id });
+      } else {
+        registro = await this.model.findById(id);
+      }
 
       if (!registro) {
-        registro = await this.model.findOne({ _id: id });
-
-        if (!registro) {
-          loggerConsole.info("El registro no existe.");
-          return { error: "registro no encontrado" };
-        }
+        loggerConsole.info("El registro no existe.");
+        return { error: "registro no encontrado" };
       }
 
       return registro;
@@ -55,42 +57,49 @@ class ContenedorMongoDb {
   }
   async editById(id, Objeto) {
     try {
-      let registro = await this.model.findOne({ id: id });
+      let registro;
 
-      if (!registro) {
-        registro = await this.model.findOne({ _id: id });
+      if (id / id == 1) {
+        registro = await this.model.findOne({ id: id });
 
         if (!registro) {
           loggerConsole.info("El registro no existe.");
           return { error: "registro no encontrado" };
-        } else {
-          let keys = Object.keys(Objeto);
-
-          await keys.forEach(async (elem) => {
-            const objeto = {};
-            objeto[elem] = Objeto[elem];
-            registro[elem] = Objeto[elem];
-            await this.model.updateOne({ _id: id }, { $set: objeto });
-          });
-
-          loggerConsole.info(`Registro editado con id ${id}`);
-
-          return registro;
         }
+
+        let keys = Object.keys(Objeto);
+
+        await keys.forEach(async (elem) => {
+          const objeto = {};
+          objeto[elem] = Objeto[elem];
+          registro[elem] = Objeto[elem];
+          await this.model.updateOne({ id: id }, { $set: objeto });
+        });
+
+        loggerConsole.info(`Registro editado con id ${id}`);
+
+        return registro;
+      } else {
+        registro = await this.model.findById(id);
+
+        if (!registro) {
+          loggerConsole.info("El registro no existe.");
+          return { error: "registro no encontrado" };
+        }
+
+        let keys = Object.keys(Objeto);
+
+        await keys.forEach(async (elem) => {
+          const objeto = {};
+          objeto[elem] = Objeto[elem];
+          registro[elem] = Objeto[elem];
+          await this.model.updateOne({ _id: id }, { $set: objeto });
+        });
+
+        loggerConsole.info(`Registro editado con id ${id}`);
+
+        return registro;
       }
-
-      let keys = Object.keys(Objeto);
-
-      await keys.forEach(async (elem) => {
-        const objeto = {};
-        objeto[elem] = Objeto[elem];
-        registro[elem] = Objeto[elem];
-        await this.model.updateOne({ id: id }, { $set: objeto });
-      });
-
-      loggerConsole.info(`Registro editado con id ${id}`);
-
-      return registro;
     } catch (error) {
       loggerConsole.error(error.stack);
       loggerFile.error(error.stack);
@@ -98,24 +107,31 @@ class ContenedorMongoDb {
   }
   async deleteById(id) {
     try {
-      let registro = await this.model.findOne({ id: id });
+      let registro;
 
-      if (!registro) {
-        registro = await this.model.findOne({ _id: id });
+      if (id / id == 1) {
+        registro = await this.model.findOne({ id: id });
 
         if (!registro) {
           loggerConsole.info("El registro no existe.");
           return { error: "registro no encontrado" };
-        } else {
-          await this.model.deleteOne({ _id: id });
-          loggerConsole.info(`Registro con id ${id} eliminado.`);
-          return registro;
         }
-      }
 
-      await this.model.deleteOne({ id: id });
-      loggerConsole.info(`Registro con id ${id} eliminado.`);
-      return registro;
+        await this.model.deleteOne({ id: id });
+        loggerConsole.info(`Registro con id ${id} eliminado.`);
+        return registro;
+      } else {
+        registro = await this.model.findById(id);
+
+        if (!registro) {
+          loggerConsole.info("El registro no existe.");
+          return { error: "registro no encontrado" };
+        }
+
+        await this.model.deleteOne({ _id: id });
+        loggerConsole.info(`Registro con id ${id} eliminado.`);
+        return registro;
+      }
     } catch (error) {
       loggerConsole.error(error.stack);
       loggerFile.error(error.stack);
